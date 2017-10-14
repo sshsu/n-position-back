@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "834937926046",
+    "project_id": "firebase-dualnback"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:834937926046:android:8c2c9bc81e6b2b00",
+        "android_client_info": {
+          "package_name": "sapphire.dualnback"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "834937926046-4pgbssg7bj71t3kg2tup03t1ll7045k7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "sapphire.dualnback",
+            "certificate_hash": "c37cead9823bf47f24d0a8c23d7a6a5bc452a903"
+          }
+        },
+        {
+          "client_id": "834937926046-8p6q6bqhpjsg1697hkq52gmvgs2h7vm1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAx287ftN8etXb80HFqjgGl28_foCJpqHA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
