@@ -1,19 +1,16 @@
 package sapphire.dualnback;
 
 import android.graphics.Color;
-import android.icu.util.Calendar;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
-import java.util.GregorianCalendar;
 import java.util.Random;
 import java.util.Vector;
 
-public class MainActivity extends AppCompatActivity {
+public class PlayActivity extends AppCompatActivity {
     Button b1, b2, b3, b4, b5, b6, b7, b8, b9;
     Vector<Button> butVec = new Vector<Button>(9);
     Vector<Integer> sequence = new Vector<Integer>(0);
@@ -23,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_play);
         butVec.add(b1 = (Button) findViewById(R.id.but1));
         butVec.add(b2 = (Button) findViewById(R.id.but2));
         butVec.add(b3 = (Button) findViewById(R.id.but3));

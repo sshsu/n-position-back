@@ -36,7 +36,7 @@ public class SignInActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_sign_in);
 
         // Views
         mStatusTextView = (TextView) findViewById(R.id.status);
@@ -123,6 +123,11 @@ public class SignInActivity extends AppCompatActivity implements
             GoogleSignInAccount acct = result.getSignInAccount();
             mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
             updateUI(true);
+            Intent intent = new Intent(this, HomeActivity.class);
+            startActivity(intent);
+            //Kill the sign in activity off the stack to prevent the user from pressing the back button
+            //to return to the sign in activity
+            finish();
         } else {
             // Signed out, show unauthenticated UI.
             updateUI(false);
@@ -132,6 +137,7 @@ public class SignInActivity extends AppCompatActivity implements
 
     // [START signIn]
     private void signIn() {
+        System.out.println("in the sign in function");
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -139,6 +145,7 @@ public class SignInActivity extends AppCompatActivity implements
 
     // [START signOut]
     private void signOut() {
+
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                 new ResultCallback<Status>() {
                     @Override
