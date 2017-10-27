@@ -175,7 +175,7 @@
         app:layout_constraintTop_toBottomOf="@id/guidelineH1" />
 
     <Button
-        android:id="@+id/but1"
+        android:id="@+id/but0"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="4dp"
@@ -190,7 +190,7 @@
         app:layout_constraintTop_toBottomOf="@id/guidelineH13" />
 
     <Button
-        android:id="@+id/but2"
+        android:id="@+id/but1"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="4dp"
@@ -204,7 +204,7 @@
         app:layout_constraintRight_toLeftOf="@+id/guidelineV66" />
 
     <Button
-        android:id="@+id/but3"
+        android:id="@+id/but2"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="4dp"
@@ -218,7 +218,7 @@
         app:layout_constraintRight_toLeftOf="@+id/guidelineV98" />
 
     <Button
-        android:id="@+id/but4"
+        android:id="@+id/but3"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="4dp"
@@ -232,21 +232,19 @@
         app:layout_constraintRight_toLeftOf="@+id/guidelineV34" />
 
     <Button
-        android:id="@+id/but5"
+        android:id="@+id/butMid"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
-        android:background="@color/grey"
-        app:layout_constraintTop_toBottomOf="@id/guidelineH35"
+        android:layout_marginTop="4dp"
+        android:background="@color/light_grey"
         app:layout_constraintBottom_toTopOf="@+id/guidelineH57"
         app:layout_constraintLeft_toRightOf="@+id/guidelineV34"
-        app:layout_constraintRight_toLeftOf="@+id/guidelineV66" />
+        app:layout_constraintRight_toLeftOf="@+id/guidelineV66"
+        app:layout_constraintTop_toBottomOf="@id/guidelineH35" />
 
     <Button
-        android:id="@+id/but6"
+        android:id="@+id/but4"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="4dp"
@@ -260,7 +258,7 @@
         app:layout_constraintRight_toLeftOf="@+id/guidelineV98" />
 
     <Button
-        android:id="@+id/but7"
+        android:id="@+id/but5"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="4dp"
@@ -274,7 +272,7 @@
         app:layout_constraintTop_toBottomOf="@id/guidelineH57" />
 
     <Button
-        android:id="@+id/but8"
+        android:id="@+id/but6"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="4dp"
@@ -288,7 +286,7 @@
         app:layout_constraintRight_toLeftOf="@+id/guidelineV66" />
 
     <Button
-        android:id="@+id/but9"
+        android:id="@+id/but7"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="4dp"
@@ -302,7 +300,7 @@
         app:layout_constraintRight_toLeftOf="@+id/guidelineV98" />
 
     <Button
-        android:id="@+id/left"
+        android:id="@+id/playBut"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="4dp"
@@ -337,36 +335,36 @@
         app:layout_constraintTop_toBottomOf="@id/guidelineH79" />
 
     <Button
-        android:id="@+id/pos"
+        android:id="@+id/posBut"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="4dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
+        android:onClick="posClick"
         android:text="@string/position"
         android:textAllCaps="false"
-        android:textColor="@android:color/black"
+        android:textColor="@color/light_grey"
         android:textSize="18sp"
         android:textStyle="normal"
+        android:clickable="false"
         app:layout_constraintBottom_toTopOf="@+id/guidelineH98"
         app:layout_constraintLeft_toRightOf="@+id/guidelineV66"
         app:layout_constraintRight_toLeftOf="@+id/guidelineV98"
         app:layout_constraintTop_toBottomOf="@id/guidelineH85" />
 
     <Button
-        android:id="@+id/color"
+        android:id="@+id/colBut"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="4dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
+        android:onClick="colClick"
         android:text="@string/color"
         android:textAllCaps="false"
-        android:textColor="@android:color/black"
+        android:textColor="@color/light_grey"
         android:textSize="18sp"
         android:textStyle="normal"
+        android:clickable="false"
         app:layout_constraintBottom_toTopOf="@+id/guidelineH98"
         app:layout_constraintLeft_toRightOf="@+id/guidelineV34"
         app:layout_constraintRight_toLeftOf="@+id/guidelineV66"

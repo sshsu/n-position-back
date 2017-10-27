@@ -8,11 +8,16 @@
     <color name="blue_grey_700">#455A64</color>
     <color name="blue_grey_800">#37474F</color>
     <color name="blue_grey_900">#263238</color>
-    <color name="grey">#808080</color>
+    <color name="light_grey">#E0E0E0</color>
+    <color name="grey">#B0B0B0</color>
     <color name="green">#008000</color>
     <color name="red">#FF0000</color>
     <color name="blue">#0000FF</color>
-    <color name="pink">#F250C2</color>
+    <color name="light_blue">#88D1F4</color>
+    <color name="pink">#ff95dc</color>
+    <color name="orange">#FFA500</color>
+    <color name="purple">#9500ff</color>
     <color name="yellow">#FFFF00</color>
+    <color name="black">#000000</color>
 
 </resources>
