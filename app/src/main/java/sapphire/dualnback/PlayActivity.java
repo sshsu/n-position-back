@@ -1,7 +1,12 @@
 package sapphire.dualnback;
 
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +16,15 @@ import java.util.Random;
 import java.util.Vector;
 
 public class PlayActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_play);
+        init();
+    }
+
+    //  Integer[] numTrialsKey = {0,21,24,29,36,45,56,69,84,101,120};
     Vector<Button> butVec = new Vector<>(9);
     Vector<Integer> posSeq = new Vector<>(0);
     Vector<Integer> colSeq = new Vector<>(0);
@@ -19,14 +33,11 @@ public class PlayActivity extends AppCompatActivity {
     int count;
     boolean posMatch, colMatch;
 
-  //  Integer[] numTrialsKey = {0,21,24,29,36,45,56,69,84,101,120};
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_play);
-        init();
+    void showScoresDialog() {
+            ScoreFrag scores = new ScoreFrag();
+            scores.show(getSupportFragmentManager(), "DialogFragment");
     }
+
 
     public void posClick (View view){
         clickBut((Button)this.findViewById(R.id.posBut));
@@ -90,9 +101,9 @@ public class PlayActivity extends AppCompatActivity {
                             count +=1 ;
                             lightOn(random);
                         }
-                    }, 1500);
+                    }, 800);
                 }
-            }, 800);
+            }, 500);
         }
         else {
             unclickBut((Button)this.findViewById(R.id.playBut));
@@ -105,6 +116,7 @@ public class PlayActivity extends AppCompatActivity {
                 System.out.println("posSeq " + i + ": " + posSeq.get(i));
                 System.out.println("colSeq " + i + ": " + colSeq.get(i));
             }
+            showScoresDialog();
         }
     }
 

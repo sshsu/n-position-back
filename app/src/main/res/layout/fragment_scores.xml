@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:visibility="visible"
+tools:context="sapphire.dualnback.ScoreFrag">
+<TextView
+    android:id="@+id/Space"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:text=""
+    app:layout_constraintBottom_toTopOf="@id/Position"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toLeftOf="@id/Correct"
+    app:layout_constraintTop_toTopOf="parent" />
+
+<TextView
+    android:id="@+id/Correct"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_alignParentTop="true"
+    android:layout_toEndOf="@id/Space"
+    android:text="@string/correct"
+    app:layout_constraintBottom_toTopOf="@id/posCor"
+    app:layout_constraintLeft_toRightOf="@id/Space"
+    app:layout_constraintRight_toLeftOf="@id/Miss"
+    app:layout_constraintTop_toTopOf="parent" />
+
+<TextView
+    android:id="@+id/Miss"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:text="@string/miss"
+    app:layout_constraintBottom_toTopOf="@id/posMiss"
+    app:layout_constraintLeft_toRightOf="@id/Correct"
+    app:layout_constraintRight_toLeftOf="@id/Wrong"
+    app:layout_constraintTop_toTopOf="parent" />
+
+<TextView
+    android:id="@+id/Wrong"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:text="@string/wrong"
+    app:layout_constraintBottom_toTopOf="@id/posWrong"
+    app:layout_constraintLeft_toRightOf="@id/Miss"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+<TextView
+    android:id="@+id/Position"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:text="@string/position"
+    app:layout_constraintBottom_toTopOf="@id/Color"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toLeftOf="@id/posCor"
+    app:layout_constraintTop_toBottomOf="@id/Space" />
+
+<TextView
+    android:id="@+id/posCor"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:text="hat"
+    app:layout_constraintBottom_toTopOf="@id/colCor"
+    app:layout_constraintLeft_toRightOf="@id/Position"
+    app:layout_constraintRight_toLeftOf="@id/posMiss"
+    app:layout_constraintTop_toBottomOf="@id/Correct" />
+
+<TextView
+    android:id="@+id/posMiss"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:text="hat"
+    app:layout_constraintBottom_toTopOf="@id/colMiss"
+    app:layout_constraintLeft_toRightOf="@id/posCor"
+    app:layout_constraintRight_toLeftOf="@id/posWrong"
+    app:layout_constraintTop_toBottomOf="@id/Miss" />
+
+<TextView
+    android:id="@+id/posWrong"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:text="hat"
+    app:layout_constraintBottom_toTopOf="@id/colWrong"
+    app:layout_constraintLeft_toRightOf="@id/colMiss"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/Wrong" />
+
+<TextView
+    android:id="@+id/Color"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:text="@string/color"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toLeftOf="@id/colCor"
+    app:layout_constraintTop_toBottomOf="@id/Position" />
+
+<TextView
+    android:id="@+id/colCor"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:text="hat"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintLeft_toRightOf="@id/Color"
+    app:layout_constraintRight_toLeftOf="@id/colMiss"
+    app:layout_constraintTop_toBottomOf="@id/posCor" />
+
+<TextView
+    android:id="@+id/colMiss"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:text="hat"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintLeft_toRightOf="@id/colCor"
+    app:layout_constraintRight_toLeftOf="@id/colWrong"
+    app:layout_constraintTop_toBottomOf="@id/posMiss" />
+
+<TextView
+    android:id="@+id/colWrong"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:text="hat"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintLeft_toRightOf="@id/colMiss"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/posWrong" />
+
+</android.support.constraint.ConstraintLayout>

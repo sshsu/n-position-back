@@ -75,4 +75,11 @@
     <!-- Server Client ID.  This should be a valid Web OAuth 2.0 Client ID obtained
          from https://console.developers.google.com/ -->
     <string name="server_client_id">YOUR_SERVER_CLIENT_ID</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="correct">Correct</string>
+    <string name="miss">Miss</string>
+    <string name="wrong">Wrong</string>
+    <string name="_0">0</string>
 </resources>
