@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/DualNBack.iml" filepath="$PROJECT_DIR$/DualNBack.iml" />
-      <module fileurl="file://C:\mobprog\DualNBack\DualNBack-master.iml" filepath="C:\mobprog\DualNBack\DualNBack-master.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

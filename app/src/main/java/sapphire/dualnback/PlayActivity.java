@@ -1,9 +1,8 @@
 package sapphire.dualnback;
 
-import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
@@ -12,10 +11,10 @@ import java.util.Vector;
 
 public class PlayActivity extends AppCompatActivity {
     Button b1, b2, b3, b4, b5, b6, b7, b8, b9;
-    Vector<Button> butVec = new Vector<Button>(9);
-    Vector<Integer> sequence = new Vector<Integer>(0);
+    Vector<Button> butVec = new Vector<>(9);
+    Vector<Integer> sequence = new Vector<>(0);
 
-    Integer[] numTrialsKey = {0,21,24,29,36,45,56,69,84,101,120};
+  //  Integer[] numTrialsKey = {0,21,24,29,36,45,56,69,84,101,120};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,37 +31,51 @@ public class PlayActivity extends AppCompatActivity {
         butVec.add(b9 = (Button) findViewById(R.id.but9));
     }
 
-    public void colorClick (){
+ /*   public void colorClick (){
         new ClickGet();
     }
+*/
 
-    public void nap() {
-
-    }
     public void play(View view) {
         Random random = new Random();
         buttonsOff();
-        lightOneforSec(0, random);
+        lightOn(0, random);
     }
 
     private void buttonsOff() {
         for (int i = 0; i < 9; i++)
-            butVec.get(i).setBackgroundColor(Color.parseColor("#6a6969"));
+            butVec.get(i).setBackgroundColor(getResources().getColor(R.color.grey));
     }
 
-    private void lightOneforSec(final int butNum,final Random random) {
+    public void lightOff(int curRandomInt) {
+        butVec.get(curRandomInt).setBackgroundColor(getResources().getColor(R.color.grey));
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+            }
+        }, 1100);
+    }
+
+    private void lightOn(final int butNum,final Random random) {
         if(butNum != 5) {
-            final int curRandomInt = random.nextInt(8) + 1;
-            System.out.println("butNum: " + butNum + " curRandomInt: " + curRandomInt);
-            butVec.get(curRandomInt).setBackgroundColor(Color.parseColor("#1ede2f"));
-            Handler handler = new Handler();
+            //clear sequence on first iteration
+            if (butNum == 0)
+                sequence.clear();
+
+            final int curRandomInt = random.nextInt(9);
+            sequence.add(curRandomInt);
+            butVec.get(curRandomInt).setBackgroundColor(getResources().getColor(R.color.green));
+            final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 public void run() {
-                    sequence.add(Integer.valueOf(curRandomInt));
-                    butVec.get(curRandomInt).setBackgroundColor(Color.parseColor("#6a6969"));
-                    lightOneforSec(butNum + 1, random);
+                    butVec.get(curRandomInt).setBackgroundColor(getResources().getColor(R.color.grey));
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            lightOn(butNum + 1, random);
+                        }
+                    }, 1300);
                 }
-            }, 2000);
+            }, 700);
         }
         else {
             for(int i = 0; i < sequence.size(); i ++)
