@@ -57,6 +57,12 @@ public class PlayActivity extends AppCompatActivity {
         scores.add("Wrong");
         scores.add(String.valueOf(score[4]));
         scores.add(String.valueOf(score[5]));
+        scores.add(" ");
+        scores.add(" ");
+        scores.add(" ");
+        scores.add("Total");
+        scores.add(String.valueOf(score[0] + score[1]) + "/" + String.valueOf(score[0]+score[1] + score[2]+ score[3]+score[4]+score[5]));
+        scores.add(String.valueOf((score[0] + score[1])/(score[0]+score[1] + score[2]+ score[3]+score[4]+score[5]))+ "%");
 
         gridView.setAdapter(new ArrayAdapter(this, android.R.layout.simple_list_item_1, scores));
         gridView.setNumColumns(3);
