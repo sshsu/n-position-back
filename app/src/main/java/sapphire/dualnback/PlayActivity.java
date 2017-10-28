@@ -9,9 +9,14 @@ import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Vector;
 
@@ -33,9 +38,41 @@ public class PlayActivity extends AppCompatActivity {
     int count;
     boolean posMatch, colMatch;
 
-    void showScoresDialog() {
-            ScoreFrag scores = new ScoreFrag();
-            scores.show(getSupportFragmentManager(), "DialogFragment");
+    private void showAlertDialog() {
+        // Prepare grid view
+        GridView gridView = new GridView(this);
+
+
+        List<String> scores = new ArrayList<>();
+
+        scores.add(" ");
+        scores.add("Position:");
+        scores.add("Color:");
+        scores.add("Correct");
+        scores.add(String.valueOf(score[0]));
+        scores.add(String.valueOf(score[1]));
+        scores.add("Missed");
+        scores.add(String.valueOf(score[2]));
+        scores.add(String.valueOf(score[3]));
+        scores.add("Wrong");
+        scores.add(String.valueOf(score[4]));
+        scores.add(String.valueOf(score[5]));
+
+        gridView.setAdapter(new ArrayAdapter(this, android.R.layout.simple_list_item_1, scores));
+        gridView.setNumColumns(3);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // do something here
+            }
+        });
+
+
+        // Set grid view to alertDialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(gridView);
+        builder.setTitle("Scores");
+        builder.show();
     }
 
 
@@ -116,7 +153,7 @@ public class PlayActivity extends AppCompatActivity {
                 System.out.println("posSeq " + i + ": " + posSeq.get(i));
                 System.out.println("colSeq " + i + ": " + colSeq.get(i));
             }
-            showScoresDialog();
+            showAlertDialog();
         }
     }
 
