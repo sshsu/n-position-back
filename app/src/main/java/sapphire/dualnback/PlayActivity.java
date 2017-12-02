@@ -2,6 +2,7 @@ package sapphire.dualnback;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -22,13 +23,8 @@ import java.util.Vector;
 
 public class PlayActivity extends AppCompatActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_play);
-        init();
-    }
-
+    String difficulty;
+    Intent intent;
     //  Integer[] numTrialsKey = {0,21,24,29,36,45,56,69,84,101,120};
     Vector<Button> butVec = new Vector<>(9);
     Vector<Integer> posSeq = new Vector<>(0);
@@ -37,6 +33,15 @@ public class PlayActivity extends AppCompatActivity {
     int[] score;
     int count;
     boolean posMatch, colMatch;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_play);
+        init();
+        intent = getIntent();
+        difficulty = intent.getStringExtra("difficulty");
+        n = Integer.parseInt(difficulty);
+    }
 
     private void showAlertDialog() {
         // Prepare grid view
@@ -106,8 +111,6 @@ public class PlayActivity extends AppCompatActivity {
         score = new int[]{0, 0, 0, 0, 0, 0};
         posSeq.clear();
         colSeq.clear();
-        //get n
-        n = Integer.parseInt(((TextView)this.findViewById(R.id.nValue)).getText().toString());
         count = 0;
         Random random = new Random();
         lightOn(random);
