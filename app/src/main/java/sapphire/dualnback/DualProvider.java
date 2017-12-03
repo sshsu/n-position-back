@@ -178,7 +178,6 @@ public class DualProvider extends ContentProvider {
 			onCreate(db);
 		}
 	}
-
 	//*******DON'T CARE PILE
 	@Override
 	public String getType(Uri uri) { //Not implemented. Would return the MIME type requests

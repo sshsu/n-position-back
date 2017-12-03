@@ -29,10 +29,15 @@ public class PlayActivity extends AppCompatActivity {
     Vector<Button> butVec = new Vector<>(9);
     Vector<Integer> posSeq = new Vector<>(0);
     Vector<Integer> colSeq = new Vector<>(0);
-    int n;
+    int n, count;
     int[] score;
-    int count;
     boolean posMatch, colMatch;
+
+	String[] projection = {
+			DualProvider.COL_ID,
+			DualProvider.COL_SCORE,
+			DualProvider.COL_DATE_TIME};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,8 +51,6 @@ public class PlayActivity extends AppCompatActivity {
     private void showAlertDialog() {
         // Prepare grid view
         GridView gridView = new GridView(this);
-
-
         List<String> scores = new ArrayList<>();
 
         scores.add(" ");
@@ -78,14 +81,12 @@ public class PlayActivity extends AppCompatActivity {
             }
         });
 
-
         // Set grid view to alertDialog
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(gridView);
         builder.setTitle("Scores");
         builder.show();
     }
-
 
     public void posClick (View view){
         clickBut((Button)this.findViewById(R.id.posBut));
