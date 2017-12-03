@@ -2,13 +2,16 @@ package sapphire.dualnback;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v4.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,6 +20,8 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.Vector;
@@ -25,7 +30,6 @@ public class PlayActivity extends AppCompatActivity {
 
     String difficulty;
     Intent intent;
-    //  Integer[] numTrialsKey = {0,21,24,29,36,45,56,69,84,101,120};
     Vector<Button> butVec = new Vector<>(9);
     Vector<Integer> posSeq = new Vector<>(0);
     Vector<Integer> colSeq = new Vector<>(0);
@@ -35,10 +39,36 @@ public class PlayActivity extends AppCompatActivity {
 
 	String[] projection = {
 			DualProvider.COL_ID,
-			DualProvider.COL_SCORE,
-			DualProvider.COL_DATE_TIME};
+			DualProvider.COL_DATE_TIME,
+			DualProvider.COL_SCORE};
 
-    @Override
+    public void dbTest(View view) {
+		ContentValues cv = new ContentValues();
+		String date = String.valueOf(new Date(Calendar.getInstance().getTimeInMillis()));
+		Log.e("date check ", date);
+		cv.put(DualProvider.COL_DATE_TIME, String.valueOf(new Date(Calendar.getInstance().getTimeInMillis())));
+		cv.put(DualProvider.COL_SCORE, 95);
+		getContentResolver().insert(DualProvider.CONTENT_URI, cv);
+		tableData();
+	}
+	public void tableData() {
+		Cursor cursor = getContentResolver().query(DualProvider.CONTENT_URI,projection,null,null,"_ID DESC");
+		if(cursor != null) {
+			if(cursor.getCount() > 0){
+				for(int i = 0; i < cursor.getCount(); i++) {
+					cursor.moveToPosition(i);
+					Log.e("Cursor pos(i) ", String.valueOf(i));
+					Log.e("ID ", String.valueOf(cursor.getInt(0)));
+					Log.e("Date/Time ", cursor.getString(1));
+					Log.e("Score ", String.valueOf(cursor.getInt(2)));
+				}
+			}
+			cursor.close();
+		}
+	}
+
+
+	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
@@ -69,8 +99,14 @@ public class PlayActivity extends AppCompatActivity {
         scores.add(" ");
         scores.add(" ");
         scores.add("Total");
-        scores.add(String.valueOf(score[0] + score[1]) + "/" + String.valueOf(score[0]+score[1] + score[2]+ score[3]+score[4]+score[5]));
-        scores.add(String.valueOf((score[0] + score[1])/(score[0]+score[1] + score[2]+ score[3]+score[4]+score[5]))+ "%");
+        int denominator = score[0]+score[1] + score[2]+ score[3]+score[4]+score[5];
+        if (denominator == 0)
+        	denominator = 1;
+        scores.add(String.valueOf(score[0] + score[1]) + "/" + denominator);
+        denominator = score[0]+score[1] + score[2]+ score[3]+score[4]+score[5];
+        if (denominator == 0)
+        	denominator = 1;
+        scores.add(String.valueOf((score[0] + score[1])/denominator) + "%");
 
         gridView.setAdapter(new ArrayAdapter(this, android.R.layout.simple_list_item_1, scores));
         gridView.setNumColumns(3);
@@ -186,7 +222,7 @@ public class PlayActivity extends AppCompatActivity {
         b.setTextColor(getResources().getColor(R.color.black));
         b.setClickable(true);
     }
-    
+
     public void setButColor(Button b, int color) {
         switch(color) {
             case 0 :

@@ -89,4 +89,8 @@
     <string name="tab_text_2">Tab 2</string>
     <string name="tab_text_3">Tab 3</string>
     <string name="tutorial_text">Overview Dual-N-Back is a brain training game which consists of a sequence of signals shown to you one by one. There are two types of signals in the game -Position Signals -Color Signals</string>
+    <string name="dbtest">dbTest</string>
+    <string name="scores">Scores</string>
+    <string name="tutorial">Tutorial</string>
+    <string name="play">Play</string>
 </resources>

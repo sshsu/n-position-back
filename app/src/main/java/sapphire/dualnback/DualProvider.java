@@ -84,7 +84,7 @@ public class DualProvider extends ContentProvider {
 		}
 		//Insert into the table, return the id of the inserted row
 		long id = mOpenHelper.getWritableDatabase().insert(TABLE_NAME,null,values);
-		Log.e("row: ", String.valueOf(id));
+		Log.e("insert row", String.valueOf(id));
 
 		//Notify context of change
 		getContext().getContentResolver().notifyChange(uri,null);
