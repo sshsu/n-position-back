@@ -117,7 +117,7 @@ public class PlayActivity extends AppCompatActivity {
     }
 
     private void lightOn(final Random random) {
-        if(count != n+5) {
+        if(count != Math.floor(n * 2.5)) {
             posMatch = false;
             colMatch = false;
             unclickBut((Button)this.findViewById(R.id.posBut));

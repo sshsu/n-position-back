@@ -1,6 +1,10 @@
 package sapphire.dualnback;
 
 import android.content.Context;
+import android.graphics.Typeface;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -27,7 +31,10 @@ public class MainActivity extends AppCompatActivity {
 
     private SectionPageAdapter mySectionPageAdapter;
     ViewPager viewPager;
+    TabItem tabItem1, tabItem2, tabItem3;
 
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -35,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
+        init();
+
         mySectionPageAdapter = new SectionPageAdapter(getSupportFragmentManager());
 
         viewPager = (ViewPager) findViewById(R.id.container);
@@ -51,5 +60,9 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(spa);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void init(){
 
+
+    }
 }

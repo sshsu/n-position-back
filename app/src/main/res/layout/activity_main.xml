@@ -36,19 +36,22 @@
                 android:id="@+id/tabItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/family"
                 android:text="Play" />
 
             <android.support.design.widget.TabItem
                 android:id="@+id/tabItem2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tutorial" />
+                android:text="Tutorial"
+                android:fontFamily="@font/neuropol"/>
 
             <android.support.design.widget.TabItem
                 android:id="@+id/tabItem3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Scores" />
+                android:text="Scores"
+                android:fontFamily="@font/neuropol"/>
 
         </android.support.design.widget.TabLayout>
     </android.support.design.widget.AppBarLayout>
