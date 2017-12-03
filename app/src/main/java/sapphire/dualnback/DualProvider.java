@@ -24,13 +24,15 @@ public class DualProvider extends ContentProvider {
 	public static final String COL_ID = "_ID";
 	public static final String COL_SCORE = "SCORE";
 	public static final String COL_DATE_TIME = "DATE_TIME";
+	public static final String COL_LEVEL = "LEVEL";
 	//Table create string based on column names
 	private static final String SQL_CREATE_MAIN = "CREATE TABLE " +
 			TABLE_NAME+ " " +                       // Table's name
 			"(" +                           // The columns in the table
 			COL_ID + " INTEGER PRIMARY KEY, " +
 			COL_DATE_TIME + " DATETIME," +
-			COL_SCORE + " REAL)";
+			COL_SCORE + " REAL," +
+			COL_LEVEL + " REAL DEFAULT 0)";
 
 	//URI Matcher object to facilitate switch cases between URIs
 	private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
