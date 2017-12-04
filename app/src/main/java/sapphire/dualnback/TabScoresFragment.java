@@ -7,10 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * Created by skyler on 12/2/2017.
- */
-
 public class TabScoresFragment extends Fragment {
     @Nullable
     @Override

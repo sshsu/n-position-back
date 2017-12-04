@@ -10,10 +10,6 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
-/**
- * Created by skyler on 12/2/2017.
- */
-
 public class TabTutorialFragment extends Fragment {
     @Nullable
     @Override
