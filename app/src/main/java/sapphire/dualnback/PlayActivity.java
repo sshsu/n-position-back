@@ -45,7 +45,6 @@ public class PlayActivity extends AppCompatActivity {
 
     public void dbTest(View view) {
 		ContentValues cv = new ContentValues();
-		String date = String.valueOf(new Date(Calendar.getInstance().getTimeInMillis()));
 		cv.put(DualProvider.COL_DATE_TIME, String.valueOf(new Date(Calendar.getInstance().getTimeInMillis())));
 		cv.put(DualProvider.COL_SCORE, 95);
 		cv.put(DualProvider.COL_LEVEL, n);
