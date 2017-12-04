@@ -21,24 +21,106 @@ import java.util.Vector;
 
 public class PlayActivity extends AppCompatActivity {
 
-    String difficulty;
     Intent intent;
     Vector<Button> butVec = new Vector<>(9);
     Vector<Integer> posSeq = new Vector<>(0);
     Vector<Integer> colSeq = new Vector<>(0);
     int n, count;
     int[] score;
+    double finalPct;
     boolean posMatch, colMatch;
-
 	String[] projection = {
 		DualProvider.COL_ID,
 		DualProvider.COL_DATE_TIME,
 		DualProvider.COL_SCORE,
 		DualProvider.COL_LEVEL};
 
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_play);
+		init();
+		intent = getIntent();
+		n = Integer.parseInt(intent.getStringExtra("difficulty"));
+		Log.e("levelOnCreate", String.valueOf(n));
+	}
+
+	public void play(View view) {
+		//grey out play
+		clickBut((Button)this.findViewById(R.id.playBut));
+		//reset score(pos correct, color correct, pos miss, color miss, pos wrong, color wrong) -- Reset sequence
+		score = new int[]{0, 0, 0, 0, 0, 0};
+		posSeq.clear();
+		colSeq.clear();
+		count = 0;
+		Random random = new Random();
+		lightOn(random);
+	}
+
+	private void lightOn(final Random random) {
+		if(count != Math.floor(n + 5)) {
+			posMatch = false;
+			colMatch = false;
+			unclickBut((Button)this.findViewById(R.id.posBut));
+			unclickBut((Button)this.findViewById(R.id.colBut));
+			//clear sequence on first iteration
+			final int curPosInt = random.nextInt(8);
+			posSeq.add(curPosInt);
+			final int curColInt = random.nextInt(7);
+			colSeq.add(curColInt);
+			if(count-n >= 0) {
+				if (curPosInt == posSeq.get(count-n))
+					posMatch = true;
+				if (curColInt == colSeq.get(count-n))
+					colMatch = true;
+			}
+			setButColor(butVec.get(curPosInt), curColInt);
+			final Handler handler = new Handler();
+			handler.postDelayed(new Runnable() {
+				public void run() {
+					butVec.get(curPosInt).setBackgroundColor(getResources().getColor(R.color.grey));
+					handler.postDelayed(new Runnable() {
+						public void run() {
+							if(posMatch)
+								score[4] -= 1;
+							if(colMatch)
+								score[5] -= 1;
+							count +=1 ;
+							lightOn(random);
+						}
+					}, 800);
+				}
+			}, 500);
+		}
+		else {
+			unclickBut((Button)this.findViewById(R.id.playBut));
+			clickBut((Button)this.findViewById(R.id.posBut));
+			clickBut((Button)this.findViewById(R.id.colBut));
+			for(int i = 0; i < 6; i++){
+				System.out.println(score[i]);
+			}
+			for(int i = 0; i < posSeq.size(); i ++) {
+				System.out.println("posSeq " + i + ": " + posSeq.get(i));
+				System.out.println("colSeq " + i + ": " + colSeq.get(i));
+			}
+			addScoreDB();
+			showAlertDialog();
+		}
+	}
+
+	public void addScoreDB() {
+		finalPct = 100;
+		ContentValues cv = new ContentValues();
+		cv.put(DualProvider.COL_DATE_TIME, getDate());
+		cv.put(DualProvider.COL_SCORE, finalPct);
+		cv.put(DualProvider.COL_LEVEL, n);
+		getContentResolver().insert(DualProvider.CONTENT_URI, cv);
+		tableData();
+	}
+
     public void dbTest(View view) {
 		ContentValues cv = new ContentValues();
-		cv.put(DualProvider.COL_DATE_TIME, String.valueOf(new Date(Calendar.getInstance().getTimeInMillis())));
+		cv.put(DualProvider.COL_DATE_TIME, getDate());
 		cv.put(DualProvider.COL_SCORE, 95);
 		cv.put(DualProvider.COL_LEVEL, n);
 		getContentResolver().insert(DualProvider.CONTENT_URI, cv);
@@ -61,23 +143,10 @@ public class PlayActivity extends AppCompatActivity {
 		}
 	}
 
-
-	@Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_play);
-        init();
-        intent = getIntent();
-        difficulty = intent.getStringExtra("difficulty");
-        n = Integer.parseInt(difficulty);
-    }
-
     private void showAlertDialog() {
         // Prepare grid view
         GridView gridView = new GridView(this);
         List<String> scores = new ArrayList<>();
-        
-
         scores.add(" ");
         scores.add("Position:");
         scores.add("Color:");
@@ -136,68 +205,6 @@ public class PlayActivity extends AppCompatActivity {
         colMatch = false;
     }
 
-    public void play(View view) {
-        //grey out play
-        clickBut((Button)this.findViewById(R.id.playBut));
-        //reset score(pos correct, color correct, pos miss, color miss, pos wrong, color wrong) -- Reset sequence
-        score = new int[]{0, 0, 0, 0, 0, 0};
-        posSeq.clear();
-        colSeq.clear();
-        count = 0;
-        Random random = new Random();
-        lightOn(random);
-    }
-
-    private void lightOn(final Random random) {
-        if(count != Math.floor(n + 5)) {
-            posMatch = false;
-            colMatch = false;
-            unclickBut((Button)this.findViewById(R.id.posBut));
-            unclickBut((Button)this.findViewById(R.id.colBut));
-            //clear sequence on first iteration
-            final int curPosInt = random.nextInt(8);
-            posSeq.add(curPosInt);
-            final int curColInt = random.nextInt(7);
-            colSeq.add(curColInt);
-            if(count-n >= 0) {
-                if (curPosInt == posSeq.get(count-n)) 
-                    posMatch = true;
-                if (curColInt == colSeq.get(count-n))
-                    colMatch = true;
-            }
-            setButColor(butVec.get(curPosInt), curColInt);
-            final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                public void run() {
-                    butVec.get(curPosInt).setBackgroundColor(getResources().getColor(R.color.grey));
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
-                            if(posMatch)
-                                score[4] -= 1;
-                            if(colMatch)
-                                score[5] -= 1;
-                            count +=1 ;
-                            lightOn(random);
-                        }
-                    }, 800);
-                }
-            }, 500);
-        }
-        else {
-            unclickBut((Button)this.findViewById(R.id.playBut));
-            clickBut((Button)this.findViewById(R.id.posBut));
-            clickBut((Button)this.findViewById(R.id.colBut));
-            for(int i = 0; i < 6; i++){
-                System.out.println(score[i]);
-            }
-            for(int i = 0; i < posSeq.size(); i ++) {
-                System.out.println("posSeq " + i + ": " + posSeq.get(i));
-                System.out.println("colSeq " + i + ": " + colSeq.get(i));
-            }
-            showAlertDialog();
-        }
-    }
-
     private void init() {
         butVec.add((Button) findViewById(R.id.but0));
         butVec.add((Button) findViewById(R.id.but1));
@@ -246,4 +253,10 @@ public class PlayActivity extends AppCompatActivity {
                 break;
         }
     }
+
+	public String getDate() {
+		String date = String.valueOf(new Date(Calendar.getInstance().getTimeInMillis()));
+		date = date.substring(0, date.length() - 12);
+		return date;
+	}
 }
