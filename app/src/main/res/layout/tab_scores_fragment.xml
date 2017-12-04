@@ -26,11 +26,11 @@
         app:layout_constraintGuide_percent="0.1" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/guidelineV20"
+        android:id="@+id/guidelineV24"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.2" />
+        app:layout_constraintGuide_percent="0.24" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guidelineV28"
@@ -111,11 +111,18 @@
         app:layout_constraintGuide_percent="0.79" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/guidelineH85"
+        android:id="@+id/guidelineH90"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.85" />
+        app:layout_constraintGuide_percent="0.90" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineH89"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.89" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guidelineH99"
@@ -163,6 +170,7 @@
         app:layout_constraintRight_toLeftOf="@+id/guidelineV99"
         app:layout_constraintTop_toBottomOf="@id/guidelineH1" />
 
+
     <View style="@style/Divider"
         app:layout_constraintBottom_toTopOf="@+id/guidelineH11"
         app:layout_constraintEnd_toStartOf="parent"
@@ -173,10 +181,20 @@
         android:id="@+id/list_view_scores"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        app:layout_constraintBottom_toTopOf="@+id/guidelineH99"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineH79"
         app:layout_constraintLeft_toRightOf="@+id/guidelineV1"
         app:layout_constraintRight_toLeftOf="@+id/guidelineV99"
         app:layout_constraintTop_toBottomOf="@id/guidelineH11" />
+
+    <Button
+        android:id="@+id/resetScoreBut"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:onClick="resetOnClick"
+        android:text="@string/reset"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineH90"
+        app:layout_constraintLeft_toRightOf="@+id/guidelineV4"
+        app:layout_constraintRight_toLeftOf="@+id/guidelineV24"
+        app:layout_constraintTop_toBottomOf="@id/guidelineH79" />
+
 </android.support.constraint.ConstraintLayout>

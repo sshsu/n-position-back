@@ -1,4 +1,5 @@
 package sapphire.dualnback;
+
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -12,19 +13,18 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.Vector;
 
 public class PlayActivity extends AppCompatActivity {
-
     Intent intent;
     Vector<Button> butVec = new Vector<>(9);
-    Vector<Integer> posSeq = new Vector<>(0);
-    Vector<Integer> colSeq = new Vector<>(0);
+    Vector<Integer> posSeq = new Vector<>(0), colSeq = new Vector<>(0);
     int n, count;
     int[] score;
     double finalPct;
@@ -39,15 +39,17 @@ public class PlayActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_play);
+		n = Integer.parseInt(getIntent().getStringExtra("difficulty"));
 		init();
-		intent = getIntent();
-		n = Integer.parseInt(intent.getStringExtra("difficulty"));
-		Log.e("levelOnCreate", String.valueOf(n));
 	}
 
 	public void play(View view) {
 		//grey out play
 		clickBut((Button)this.findViewById(R.id.playBut));
+		for(int i = 0; i < butVec.size(); i++)
+			butVec.get(i).setClickable(true);
+		for (Button b : butVec)
+			b.setClickable(true);
 		//reset score(pos correct, color correct, pos miss, color miss, pos wrong, color wrong) -- Reset sequence
 		score = new int[]{0, 0, 0, 0, 0, 0};
 		posSeq.clear();
@@ -103,6 +105,10 @@ public class PlayActivity extends AppCompatActivity {
 				System.out.println("posSeq " + i + ": " + posSeq.get(i));
 				System.out.println("colSeq " + i + ": " + colSeq.get(i));
 			}
+			for(int i : score)
+				Log.e("score", String.valueOf(i));
+			for (Button b : butVec)
+				b.setClickable(false);
 			addScoreDB();
 			showAlertDialog();
 		}
@@ -111,36 +117,20 @@ public class PlayActivity extends AppCompatActivity {
 	public void addScoreDB() {
 		finalPct = 100;
 		ContentValues cv = new ContentValues();
-		cv.put(DualProvider.COL_DATE_TIME, getDate());
+		cv.put(DualProvider.COL_DATE_TIME, new SimpleDateFormat("MM-dd-YYYY hh:mm a", Locale.US).format(new Date()));
 		cv.put(DualProvider.COL_SCORE, finalPct);
 		cv.put(DualProvider.COL_LEVEL, n);
 		getContentResolver().insert(DualProvider.CONTENT_URI, cv);
-		tableData();
+		//tableData();
 	}
 
     public void dbTest(View view) {
 		ContentValues cv = new ContentValues();
-		cv.put(DualProvider.COL_DATE_TIME, getDate());
+		cv.put(DualProvider.COL_DATE_TIME, new SimpleDateFormat("MM-dd-YYYY hh:mm a", Locale.US).format(new Date()));
 		cv.put(DualProvider.COL_SCORE, 95);
 		cv.put(DualProvider.COL_LEVEL, n);
 		getContentResolver().insert(DualProvider.CONTENT_URI, cv);
-		tableData();
-	}
-	public void tableData() {
-		Cursor cursor = getContentResolver().query(DualProvider.CONTENT_URI,projection,null,null,"_ID DESC");
-		if(cursor != null) {
-			if(cursor.getCount() > 0){
-				for(int i = 0; i < cursor.getCount(); i++) {
-					cursor.moveToPosition(i);
-					Log.e("Cursor pos(i) ", String.valueOf(i));
-					Log.e("ID ", String.valueOf(cursor.getInt(0)));
-					Log.e("Date/Time ", cursor.getString(1));
-					Log.e("Score ", String.valueOf(cursor.getInt(2)));
-					Log.e("Level ", String.valueOf(cursor.getInt(3)));
-				}
-			}
-			cursor.close();
-		}
+		//tableData();
 	}
 
     private void showAlertDialog() {
@@ -253,10 +243,20 @@ public class PlayActivity extends AppCompatActivity {
                 break;
         }
     }
-
-	public String getDate() {
-		String date = String.valueOf(new Date(Calendar.getInstance().getTimeInMillis()));
-		date = date.substring(0, date.length() - 12);
-		return date;
+	public void tableData() {
+		Cursor cursor = getContentResolver().query(DualProvider.CONTENT_URI,projection,null,null,"_ID DESC");
+		if(cursor != null) {
+			if(cursor.getCount() > 0){
+				for(int i = 0; i < cursor.getCount(); i++) {
+					cursor.moveToPosition(i);
+					Log.e("Cursor pos(i) ", String.valueOf(i));
+					Log.e("ID ", String.valueOf(cursor.getInt(0)));
+					Log.e("Date/Time ", cursor.getString(1));
+					Log.e("Score ", String.valueOf(cursor.getInt(2)));
+					Log.e("Level ", String.valueOf(cursor.getInt(3)));
+				}
+			}
+			cursor.close();
+		}
 	}
 }
