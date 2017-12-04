@@ -11,6 +11,7 @@
     <string name="n">N =</string>
     <string name="_1">1</string>
     <string-array name="nValues">
+
         <item>1</item>
         <item>2</item>
         <item>3</item>
