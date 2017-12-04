@@ -36,6 +36,10 @@ public class PlayActivity extends AppCompatActivity {
 		DualProvider.COL_SCORE,
 		DualProvider.COL_LEVEL};
 
+	/*
+        tests d
+
+	 */
     public void dbTest(View view) {
 		ContentValues cv = new ContentValues();
 		cv.put(DualProvider.COL_DATE_TIME, String.valueOf(new Date(Calendar.getInstance().getTimeInMillis())));
@@ -44,6 +48,11 @@ public class PlayActivity extends AppCompatActivity {
 		getContentResolver().insert(DualProvider.CONTENT_URI, cv);
 		tableData();
 	}
+	/*
+	    helper function to dump the data in the table
+	    @param void
+	    @return void
+	 */
 	public void tableData() {
 		Cursor cursor = getContentResolver().query(DualProvider.CONTENT_URI,projection,null,null,"_ID DESC");
 		if(cursor != null) {
@@ -63,7 +72,7 @@ public class PlayActivity extends AppCompatActivity {
 
 
 	@Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {zz
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
         init();
@@ -148,6 +157,12 @@ public class PlayActivity extends AppCompatActivity {
         lightOn(random);
     }
 
+    /*
+        Will randomly light the buttons on the screen a number of times
+        based on the "n" value chosen by the user on the MainActivity TabPlayFragment
+        @param Random object
+        @return void
+     */
     private void lightOn(final Random random) {
         if(count != Math.floor(n + 5)) {
             posMatch = false;
