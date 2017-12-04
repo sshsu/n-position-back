@@ -20,7 +20,7 @@ public class DualProvider extends ContentProvider {
 	public static final String COL_SCORE="SCORE", COL_DATE_TIME="DATE_TIME", COL_LEVEL="LEVEL", COL_ID="_ID";
 	//Table create string based on column names
 	private static final String SQL_CREATE_MAIN ="CREATE TABLE "+TABLE_NAME+" "+"(" + COL_ID +
-			" INTEGER PRIMARY KEY, "+COL_DATE_TIME+" DATETIME,"+COL_SCORE+" REAL,"+COL_LEVEL+" INTEGER DEFAULT 0)";
+			" INTEGER PRIMARY KEY, "+COL_DATE_TIME+" DATETIME,"+COL_SCORE+" INTEGER,"+COL_LEVEL+" INTEGER DEFAULT 0)";
 
 	//URI Matcher object to facilitate switch cases between URIs
 	private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);

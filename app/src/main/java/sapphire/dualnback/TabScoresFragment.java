@@ -16,7 +16,6 @@ public class TabScoresFragment extends Fragment {
 	public static ArrayList<String[]> sList;
 	public static ScoreListAdapter scoreAdapt;
 	String[] projection = {
-			DualProvider.COL_ID,
 			DualProvider.COL_DATE_TIME,
 			DualProvider.COL_SCORE,
 			DualProvider.COL_LEVEL};
@@ -33,6 +32,7 @@ public class TabScoresFragment extends Fragment {
 			for(int i = 0; i < cursor.getCount(); i++) {
 				String[] scoreElement = new String[3];
 				scoreElement[0] = cursor.getString(0);
+
 				scoreElement[1] = String.valueOf(cursor.getInt(1));
 				scoreElement[2] = String.valueOf(cursor.getInt(2));
 				sList.add(scoreElement);

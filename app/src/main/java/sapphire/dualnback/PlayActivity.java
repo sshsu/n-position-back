@@ -1,5 +1,6 @@
 package sapphire.dualnback;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
@@ -55,11 +56,12 @@ public class PlayActivity extends AppCompatActivity {
 
 	public void play(View view) {
 		progressBar.setMax(n+5);
+
 		setSeq();
 		//score(pos correct, color correct, pos miss, color miss, pos wrong, color wrong) -- Reset sequence;
 		score = new int[]{0,0,0,0,0,0};
 		Log.e("scoreLen", String.valueOf(score.length));
-		((Button)this.findViewById(R.id.playBut)).setClickable(false);
+		clickBut(findViewById(R.id.playBut));
 		for (Button b : butVec)
 			b.setClickable(true);
 		count = 0;
@@ -94,9 +96,9 @@ public class PlayActivity extends AppCompatActivity {
 							progressBar.setProgress(count);
 							start();
 						}
-					}, 1200);
+					}, 800);
 				}
-			}, 1200);
+			}, 500);
 		}
 		else {
 			unclickBut((Button)this.findViewById(R.id.playBut));
@@ -111,12 +113,11 @@ public class PlayActivity extends AppCompatActivity {
 			}
 			for(int i : score)
 				Log.e("score", String.valueOf(i));
-			//addScoreDB();
-			showAlertDialog();
+			scoreRound();
 		}
 	}
 
-    private void showAlertDialog() { // Prepare grid view
+    private void scoreRound() { // Prepare grid view
         GridView gridView = new GridView(this);
         List<String> scores = new ArrayList<>();
         scores.add(" ");
@@ -176,13 +177,17 @@ public class PlayActivity extends AppCompatActivity {
         colMatch = false;
     }
     public void clickBut(Button b) {
-        b.setTextColor(getResources().getColor(R.color.light_grey));
+        b.setTextColor(getResources().getColor(R.color.black));
         b.setClickable(false);
     }
     public void unclickBut(Button b) {
-        b.setTextColor(getResources().getColor(R.color.black));
+        b.setTextColor(getResources().getColor(R.color.white));
         b.setClickable(true);
     }
+
+    public void goBack(View view) {
+    	startActivity(new Intent(this, MainActivity.class));
+	}
 
 	public void addScoreDB(int pct) {
 		ContentValues cv = new ContentValues();
@@ -190,7 +195,16 @@ public class PlayActivity extends AppCompatActivity {
 		cv.put(DualProvider.COL_SCORE, pct);
 		cv.put(DualProvider.COL_LEVEL, n);
 		getContentResolver().insert(DualProvider.CONTENT_URI, cv);
-		//tableData();
+		tableData();
+	}
+
+	public void dbTest(View view) {
+		ContentValues cv = new ContentValues();
+		cv.put(DualProvider.COL_DATE_TIME, new SimpleDateFormat("MM-dd-YYYY hh:mm a", Locale.US).format(new Date()));
+		cv.put(DualProvider.COL_SCORE, 10);
+		cv.put(DualProvider.COL_LEVEL, 1);
+		getContentResolver().insert(DualProvider.CONTENT_URI, cv);
+		tableData();
 	}
     public void setButColor(Button b, int color) {
         switch(color) {

@@ -1,5 +1,6 @@
 package sapphire.dualnback;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,8 +27,11 @@ public class ScoreListAdapter extends ArrayAdapter<String[]> {
 		// Populate the data into the template view using the data object
 
 		dateTV.setText(element[0]);
+		Log.e("adaptDate", element[0]);
 		scoreTV.setText(element[1]);
+		Log.e("adaptScore", element[1]);
 		levelTV.setText(element[2]);
+		Log.e("adaptLevel", element[2]);
 		// Return the completed view to render on screen
 		return convertView;
 	}

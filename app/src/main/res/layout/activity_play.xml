@@ -50,10 +50,12 @@
         app:layout_constraintGuide_percent="0.37" />
 
     <Button
-        android:id="@+id/dbTest"
+        android:id="@+id/backBut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/dbtest"
+        android:text="@string/back_button"
+        android:onClick="goBack"
+        android:textAllCaps="false"
         app:layout_constraintBottom_toTopOf="@+id/guidelineH10"
         app:layout_constraintLeft_toRightOf="@+id/guidelineV37"
         app:layout_constraintRight_toLeftOf="@+id/guidelineV66"
@@ -292,7 +294,7 @@
         android:gravity="center"
         android:text="@string/match"
         android:textAlignment="gravity"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:textSize="22sp"
         app:layout_constraintBottom_toTopOf="@+id/guidelineH92"
         app:layout_constraintLeft_toRightOf="@+id/guidelineV34"
