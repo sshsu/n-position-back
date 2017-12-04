@@ -84,6 +84,7 @@ public class PlayActivity extends AppCompatActivity {
         // Prepare grid view
         GridView gridView = new GridView(this);
         List<String> scores = new ArrayList<>();
+        
 
         scores.add(" ");
         scores.add("Position:");

@@ -39,6 +39,12 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
+<<<<<<< HEAD
+    compile 'com.google.android.gms:play-services-ads:9.0.0'
+
+    compile 'com.master.android:glideimageview:2.1'
+=======
     compile 'com.google.android.gms:play-services-ads:11.6.2'
+>>>>>>> 9e0da75e7c7357423d7d6143b4e0d9135c4193da
 }
 apply plugin: 'com.google.gms.google-services'
