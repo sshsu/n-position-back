@@ -11,6 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ProgressBar;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,8 +26,8 @@ public class PlayActivity extends AppCompatActivity {
     Vector<Integer> posSeq = new Vector<>(0), colSeq = new Vector<>(0);
     int[] score;
     int n, count;
-    double finalPct;
     boolean posMatch, colMatch, found;
+    ProgressBar progressBar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,14 +35,6 @@ public class PlayActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_play);
 		n = Integer.parseInt(getIntent().getStringExtra("difficulty"));
 		init();
-	}
-
-	public void randomTest(View view) {
-		setSeq();
-		for(int i = 0; i < posSeq.size(); i++)
-			Log.e("pos"+String.valueOf(i), String.valueOf(posSeq.get(i)));
-		for(int i = 0; i < colSeq.size(); i++)
-			Log.e("col"+String.valueOf(i), String.valueOf(colSeq.get(i)));
 	}
 
 	public void setSeq() {
@@ -52,7 +46,7 @@ public class PlayActivity extends AppCompatActivity {
 			for (int i = 0; i < n + 5; i++)
 				posSeq.add(ran.nextInt(8));
 			for (int i = 0; i < n + 5; i++)
-				colSeq.add(ran.nextInt(7));
+				colSeq.add(ran.nextInt(5));
 			for (int i = n; i < posSeq.size(); i++)
 				if ((posSeq.get(i) == posSeq.get(i - n)) || (colSeq.get(i) == colSeq.get(i - n)))
 					found = true;
@@ -60,56 +54,49 @@ public class PlayActivity extends AppCompatActivity {
 	}
 
 	public void play(View view) {
+		progressBar.setMax(n+5);
+		setSeq();
 		//score(pos correct, color correct, pos miss, color miss, pos wrong, color wrong) -- Reset sequence;
-		score = new int[6];
-		for(int i = 0; i < score.length; i ++)
-			Log.e("playbut score", String.valueOf(score[i]));
-		clickBut((Button)this.findViewById(R.id.playBut));
-		for(int i = 0; i < butVec.size(); i++)
-			butVec.get(i).setClickable(true);
+		score = new int[]{0,0,0,0,0,0};
+		Log.e("scoreLen", String.valueOf(score.length));
+		((Button)this.findViewById(R.id.playBut)).setClickable(false);
 		for (Button b : butVec)
 			b.setClickable(true);
-		posSeq.clear();
-		colSeq.clear();
 		count = 0;
-		//Random random = new Random();
-		start(new Random());
+		start();
 	}
 
-	private void start(final Random random) {
+	private void start() {
+
 		if(count != Math.floor(n + 5)) {
 			posMatch = false;
 			colMatch = false;
 			unclickBut((Button)this.findViewById(R.id.posBut));
 			unclickBut((Button)this.findViewById(R.id.colBut));
-			//clear sequence on first iteration
-			final int curPosInt = random.nextInt(8);
-			posSeq.add(curPosInt);
-			final int curColInt = random.nextInt(7);
-			colSeq.add(curColInt);
 			if(count-n >= 0) {
-				if (curPosInt == posSeq.get(count-n))
+				if (posSeq.get(count) == posSeq.get(count-n))
 					posMatch = true;
-				if (curColInt == colSeq.get(count-n))
+				if (colSeq.get(count) == colSeq.get(count-n))
 					colMatch = true;
 			}
-			setButColor(butVec.get(curPosInt), curColInt);
+			setButColor(butVec.get(posSeq.get(count)), colSeq.get(count));
 			final Handler handler = new Handler();
 			handler.postDelayed(new Runnable() {
 				public void run() {
-					butVec.get(curPosInt).setBackgroundColor(getResources().getColor(R.color.grey));
+					butVec.get(posSeq.get(count)).setBackgroundColor(getResources().getColor(R.color.grey));
 					handler.postDelayed(new Runnable() {
 						public void run() {
 							if(posMatch)
-								score[4] -= 1;
+								score[4] += 1;
 							if(colMatch)
-								score[5] -= 1;
-							count +=1 ;
-							start(random);
+								score[5] += 1;
+							count +=1;
+							progressBar.setProgress(count);
+							start();
 						}
-					}, 800);
+					}, 1200);
 				}
-			}, 500);
+			}, 1200);
 		}
 		else {
 			unclickBut((Button)this.findViewById(R.id.playBut));
@@ -124,9 +111,7 @@ public class PlayActivity extends AppCompatActivity {
 			}
 			for(int i : score)
 				Log.e("score", String.valueOf(i));
-			for (Button b : butVec)
-				b.setClickable(false);
-			addScoreDB();
+			//addScoreDB();
 			showAlertDialog();
 		}
 	}
@@ -150,27 +135,28 @@ public class PlayActivity extends AppCompatActivity {
         scores.add(" ");
         scores.add(" ");
         scores.add("Total");
+        int numerator = score[0] + score[1];
         int denominator = score[0]+score[1] + score[2]+ score[3]+score[4]+score[5];
-        if (denominator == 0)
-        	denominator = 1;
-        scores.add(String.valueOf(score[0] + score[1]) + "/" + denominator);
-        denominator = score[0]+score[1] + score[2]+ score[3]+score[4]+score[5];
-        if (denominator == 0)
-        	denominator = 1;
-        scores.add(String.valueOf((score[0] + score[1])/denominator) + "%");
+        int pct = (100*numerator)/denominator;
+        addScoreDB(pct);
+        scores.add(String.valueOf(numerator) + "/" + String.valueOf(denominator));
+        scores.add(String.valueOf(pct) + "%");
         gridView.setAdapter(new ArrayAdapter(this, android.R.layout.simple_list_item_1, scores));
         gridView.setNumColumns(3);
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // do something here
-            }
-        });
+
         // Set grid view to alertDialog
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(gridView);
         builder.setTitle("Scores");
-        builder.show();
+        AlertDialog dialog = builder.create();
+        dialog.show();
+		gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				dialog.cancel();
+			}
+		});
+
     }
 
     public void posClick (View view){
@@ -178,7 +164,7 @@ public class PlayActivity extends AppCompatActivity {
         if(posMatch)
             score[0] += 1;
         else
-            score[2] -= 1;
+            score[2] += 1;
         posMatch = false;
     }
     public void colClick (View view){
@@ -186,7 +172,7 @@ public class PlayActivity extends AppCompatActivity {
         if(colMatch)
             score[1] += 1;
         else
-            score[3] -= 1;
+            score[3] += 1;
         colMatch = false;
     }
     public void clickBut(Button b) {
@@ -198,11 +184,10 @@ public class PlayActivity extends AppCompatActivity {
         b.setClickable(true);
     }
 
-	public void addScoreDB() {
-		finalPct = 100;
+	public void addScoreDB(int pct) {
 		ContentValues cv = new ContentValues();
 		cv.put(DualProvider.COL_DATE_TIME, new SimpleDateFormat("MM-dd-YYYY hh:mm a", Locale.US).format(new Date()));
-		cv.put(DualProvider.COL_SCORE, finalPct);
+		cv.put(DualProvider.COL_SCORE, pct);
 		cv.put(DualProvider.COL_LEVEL, n);
 		getContentResolver().insert(DualProvider.CONTENT_URI, cv);
 		//tableData();
@@ -244,16 +229,9 @@ public class PlayActivity extends AppCompatActivity {
 		butVec.add((Button) findViewById(R.id.but5));
 		butVec.add((Button) findViewById(R.id.but6));
 		butVec.add((Button) findViewById(R.id.but7));
+		progressBar = (ProgressBar)findViewById(R.id.progressBar);
 	}
 
-	public void dbTest(View view) {
-		ContentValues cv = new ContentValues();
-		cv.put(DualProvider.COL_DATE_TIME, new SimpleDateFormat("MM-dd-YYYY hh:mm a", Locale.US).format(new Date()));
-		cv.put(DualProvider.COL_SCORE, 95);
-		cv.put(DualProvider.COL_LEVEL, n);
-		getContentResolver().insert(DualProvider.CONTENT_URI, cv);
-		tableData();
-	}
 	public void tableData() {
 		String[] projection = {DualProvider.COL_ID, DualProvider.COL_DATE_TIME, DualProvider.COL_SCORE, DualProvider.COL_LEVEL};
 		Cursor cursor = getContentResolver().query(DualProvider.CONTENT_URI,projection,null,null,"_ID DESC");
