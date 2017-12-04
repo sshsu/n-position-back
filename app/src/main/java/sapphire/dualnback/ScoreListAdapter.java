@@ -1,6 +1,7 @@
 package sapphire.dualnback;
 import android.content.Context;
 import android.support.annotation.NonNull;
+<<<<<<< HEAD
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,3 +39,17 @@ public class ScoreListAdapter extends ArrayAdapter<String[]> {
 		return convertView;
 	}
 }
+=======
+import android.view.View;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+
+public abstract class ScoreListAdapter implements Adapter {
+
+	public ScoreListAdapter(View view) {
+
+
+	}
+}
+>>>>>>> parent of 37e9131... stuff
