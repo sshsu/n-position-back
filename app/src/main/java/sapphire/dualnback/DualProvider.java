@@ -25,6 +25,7 @@ public class DualProvider extends ContentProvider {
 	public static final String COL_ID = "_ID";
 	public static final String COL_SCORE = "SCORE";
 	public static final String COL_DATE_TIME = "DATE_TIME";
+	public static final String COL_LEVEL = "LEVEL";
 	//Table create string based on column names
 	private static final String SQL_CREATE_MAIN = "CREATE TABLE " +
 			TABLE_NAME+ " " +                       // Table's name
@@ -32,7 +33,11 @@ public class DualProvider extends ContentProvider {
 			COL_ID + " INTEGER PRIMARY KEY, " +
 			COL_DATE_TIME + " DATETIME," +
 			COL_SCORE + " REAL," +
+<<<<<<< HEAD
 			COL_LEVEL + " INTEGER)";
+=======
+			COL_LEVEL + " REAL DEFAULT 0)";
+>>>>>>> 9e0da75e7c7357423d7d6143b4e0d9135c4193da
 
 	//URI Matcher object to facilitate switch cases between URIs
 	private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -86,7 +91,7 @@ public class DualProvider extends ContentProvider {
 		}
 		//Insert into the table, return the id of the inserted row
 		long id = mOpenHelper.getWritableDatabase().insert(TABLE_NAME,null,values);
-		Log.e("row: ", String.valueOf(id));
+		Log.e("insert row", String.valueOf(id));
 
 		//Notify context of change
 		getContext().getContentResolver().notifyChange(uri,null);
