@@ -8,11 +8,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class ScoreListAdapter extends ArrayAdapter<String[]> {
-
 	public ScoreListAdapter(Context context, ArrayList<String[]> elements) {
 		super(context, 0, elements);
 	}
-
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// Get the data item for this position
@@ -21,7 +19,7 @@ public class ScoreListAdapter extends ArrayAdapter<String[]> {
 		if (convertView == null) {
 			convertView = LayoutInflater.from(getContext()).inflate(R.layout.scores_list_item, parent, false);
 		}
-		// Lookup view for data population
+		//Get textviews to populate
 		TextView dateTV = (TextView) convertView.findViewById(R.id.scores_list_item_date);
 		TextView scoreTV = (TextView) convertView.findViewById(R.id.scores_list_item_score);
 		TextView levelTV = (TextView) convertView.findViewById(R.id.scores_list_item_level);
@@ -33,5 +31,4 @@ public class ScoreListAdapter extends ArrayAdapter<String[]> {
 		// Return the completed view to render on screen
 		return convertView;
 	}
-
 }

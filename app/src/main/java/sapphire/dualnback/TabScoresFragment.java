@@ -15,7 +15,6 @@ import java.util.ArrayList;
 public class TabScoresFragment extends Fragment {
 	public static ArrayList<String[]> sList;
 	public static ScoreListAdapter scoreAdapt;
-	//ScoreListAdapter sla;
 	String[] projection = {
 			DualProvider.COL_ID,
 			DualProvider.COL_DATE_TIME,

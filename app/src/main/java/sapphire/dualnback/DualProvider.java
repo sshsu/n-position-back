@@ -16,24 +16,11 @@ public class DualProvider extends ContentProvider {
 	private static final String DBNAME = "Dual";
 	private static final String AUTHORITY = "sapphire.dualnback";
 	private static final String TABLE_NAME = "Scores";
-	//Create a CONTENT_URI for use by other classes
-	public static final Uri CONTENT_URI =
-			Uri.parse("content://" + AUTHORITY + "/"+TABLE_NAME);
-
-	//Column names for the ToDoList Table
-	public static final String COL_ID = "_ID";
-	public static final String COL_SCORE = "SCORE";
-	public static final String COL_DATE_TIME = "DATE_TIME";
-	public static final String COL_LEVEL = "LEVEL";
+	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/"+TABLE_NAME);
+	public static final String COL_SCORE="SCORE", COL_DATE_TIME="DATE_TIME", COL_LEVEL="LEVEL", COL_ID="_ID";
 	//Table create string based on column names
-	private static final String SQL_CREATE_MAIN = "CREATE TABLE " +
-			TABLE_NAME+ " " +                       // Table's name
-			"(" +                           // The columns in the table
-			COL_ID + " INTEGER PRIMARY KEY, " +
-			COL_DATE_TIME + " DATETIME," +
-			COL_SCORE + " REAL," +
-			COL_LEVEL + " INTEGER DEFAULT 0)";
-
+	private static final String SQL_CREATE_MAIN ="CREATE TABLE "+TABLE_NAME+" "+"(" + COL_ID +
+			" INTEGER PRIMARY KEY, "+COL_DATE_TIME+" DATETIME,"+COL_SCORE+" REAL,"+COL_LEVEL+" INTEGER DEFAULT 0)";
 
 	//URI Matcher object to facilitate switch cases between URIs
 	private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -74,7 +61,7 @@ public class DualProvider extends ContentProvider {
 		return deleteCount;
 	}
 
-	//Insert functionality of the Content Provider. Pass a ContentValues object with the values to be inserted
+	//Insert functionality of the Content Provider. Pass ContentValues object with values to be inserted
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
 		switch (sUriMatcher.match(uri)){
@@ -99,9 +86,7 @@ public class DualProvider extends ContentProvider {
 	@Override
 	public boolean onCreate() {
 
-		//Creates a new helper object. This method always returns quickly.
-		//Notice that the database itself isn't created or opened
-		//until SQLiteOpenHelper.getWritableDatabase is called
+		//Create new helper obj. Notice db isn't created/opened til SQLiteOpenHelper.getWritableDatabase called
 		mOpenHelper = new MainDatabaseHelper(getContext());
 		return true;
 	}
@@ -162,8 +147,7 @@ public class DualProvider extends ContentProvider {
 		return updateCount;
 	}
 
-	//Class for creating an instance of a SQLiteOpenHelper
-	//Performs creation of the SQLite Database if none exists
+	//Class for creating instance of SQLiteOpenHelper. Performs creation of SQLite DB if none exists
 	protected static final class MainDatabaseHelper extends SQLiteOpenHelper {
 		//Instantiates open helper for provider's SQLite data repo. Do not do db creation/upgrade here.
 		MainDatabaseHelper(Context context) {
@@ -187,5 +171,3 @@ public class DualProvider extends ContentProvider {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 }
-
-

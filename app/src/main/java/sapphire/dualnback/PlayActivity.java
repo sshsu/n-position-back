@@ -1,7 +1,5 @@
 package sapphire.dualnback;
-
 import android.content.ContentValues;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,7 +20,6 @@ import java.util.Random;
 import java.util.Vector;
 
 public class PlayActivity extends AppCompatActivity {
-    Intent intent;
     Vector<Button> butVec = new Vector<>(9);
     Vector<Integer> posSeq = new Vector<>(0), colSeq = new Vector<>(0);
     int n, count;
@@ -130,7 +127,7 @@ public class PlayActivity extends AppCompatActivity {
 		cv.put(DualProvider.COL_SCORE, 95);
 		cv.put(DualProvider.COL_LEVEL, n);
 		getContentResolver().insert(DualProvider.CONTENT_URI, cv);
-		//tableData();
+		tableData();
 	}
 
     private void showAlertDialog() {
@@ -205,7 +202,7 @@ public class PlayActivity extends AppCompatActivity {
         butVec.add((Button) findViewById(R.id.but6));
         butVec.add((Button) findViewById(R.id.but7));
     }
-    
+
     public void clickBut(Button b) {
         b.setTextColor(getResources().getColor(R.color.light_grey));
         b.setClickable(false);
