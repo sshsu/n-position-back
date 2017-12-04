@@ -96,9 +96,9 @@ public class PlayActivity extends AppCompatActivity {
 							progressBar.setProgress(count);
 							start();
 						}
-					}, 800);
+					}, 1000);
 				}
-			}, 500);
+			}, 1000);
 		}
 		else {
 			unclickBut((Button)this.findViewById(R.id.playBut));
