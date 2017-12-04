@@ -13,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ProgressBar;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,9 +43,9 @@ public class PlayActivity extends AppCompatActivity {
 		while(!found) {
 			posSeq.clear();
 			colSeq.clear();
-			for (int i = 0; i < n + 5; i++)
+			for (int i = 0; i < n + 8; i++)
 				posSeq.add(ran.nextInt(8));
-			for (int i = 0; i < n + 5; i++)
+			for (int i = 0; i < n + 8; i++)
 				colSeq.add(ran.nextInt(5));
 			for (int i = n; i < posSeq.size(); i++)
 				if ((posSeq.get(i) == posSeq.get(i - n)) || (colSeq.get(i) == colSeq.get(i - n)))
@@ -70,7 +69,7 @@ public class PlayActivity extends AppCompatActivity {
 
 	private void start() {
 
-		if(count != Math.floor(n + 5)) {
+		if(count != Math.floor(n + 8)) {
 			posMatch = false;
 			colMatch = false;
 			unclickBut((Button)this.findViewById(R.id.posBut));
