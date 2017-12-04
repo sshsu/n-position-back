@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -16,8 +17,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import static sapphire.dualnback.R.layout.scores_list_item;
+
 public class TabScoresFragment extends Fragment {
-	ScoreListAdapter sla;
+	//ScoreListAdapter sla;
 	String[] projection = {
 			DualProvider.COL_DATE_TIME,
 			DualProvider.COL_SCORE,
@@ -28,7 +31,7 @@ public class TabScoresFragment extends Fragment {
         View view = inflater.inflate(R.layout.tab_scores_fragment, container, false);
 
         //get date, score and level from database in String form, add each to
-		ArrayList<String[]> sList = new ArrayList<>();
+		List<String[]> sList = new ArrayList<>();
         Cursor cursor = getContext().getContentResolver().query(DualProvider.CONTENT_URI,projection,null,null,"_ID DESC");
 		if(cursor.getCount() > 0) {
 			cursor.moveToFirst();
@@ -36,16 +39,13 @@ public class TabScoresFragment extends Fragment {
 				String[] scoreElement = new String[3];
 				scoreElement[0] = cursor.getString(0);
 				scoreElement[1] = String.valueOf(cursor.getInt(1));
-				scoreElement[2] = String.valueOf(cursor.getString(2))
+				scoreElement[2] = String.valueOf(cursor.getString(2));
+				sList.add(scoreElement);
 				cursor.moveToNext();
 			}
 		}
-
 		ListView listView = view.findViewById(R.id.list_view_scores);
-<<<<<<< HEAD
-		ScoreListAdapter scoreAdapt = new ScoreListAdapter(getContext(), sList);
-=======
->>>>>>> parent of 37e9131... stuff
+		//ArrayAdapter<String[]> scoreAdapt = new ArrayAdapter<String[]>(scores_list_item, , sList);
         return view;
     }
 }

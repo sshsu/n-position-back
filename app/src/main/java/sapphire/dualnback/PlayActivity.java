@@ -35,12 +35,6 @@ public class PlayActivity extends AppCompatActivity {
 		DualProvider.COL_SCORE,
 		DualProvider.COL_LEVEL};
 
-<<<<<<< HEAD
-	/*
-        tests d
-
-	 */
-=======
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -124,7 +118,6 @@ public class PlayActivity extends AppCompatActivity {
 		tableData();
 	}
 
->>>>>>> 37e91313212f767e25c49c8bc42d7bb11ea969dd
     public void dbTest(View view) {
 		ContentValues cv = new ContentValues();
 		cv.put(DualProvider.COL_DATE_TIME, getDate());
@@ -133,11 +126,6 @@ public class PlayActivity extends AppCompatActivity {
 		getContentResolver().insert(DualProvider.CONTENT_URI, cv);
 		tableData();
 	}
-	/*
-	    helper function to dump the data in the table
-	    @param void
-	    @return void
-	 */
 	public void tableData() {
 		Cursor cursor = getContentResolver().query(DualProvider.CONTENT_URI,projection,null,null,"_ID DESC");
 		if(cursor != null) {
@@ -155,20 +143,6 @@ public class PlayActivity extends AppCompatActivity {
 		}
 	}
 
-<<<<<<< HEAD
-
-	@Override
-    protected void onCreate(Bundle savedInstanceState) {zz
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_play);
-        init();
-        intent = getIntent();
-        difficulty = intent.getStringExtra("difficulty");
-        n = Integer.parseInt(difficulty);
-    }
-
-=======
->>>>>>> 37e91313212f767e25c49c8bc42d7bb11ea969dd
     private void showAlertDialog() {
         // Prepare grid view
         GridView gridView = new GridView(this);
@@ -231,77 +205,6 @@ public class PlayActivity extends AppCompatActivity {
         colMatch = false;
     }
 
-<<<<<<< HEAD
-    public void play(View view) {
-        //grey out play
-        clickBut((Button)this.findViewById(R.id.playBut));
-        //reset score(pos correct, color correct, pos miss, color miss, pos wrong, color wrong) -- Reset sequence
-        score = new int[]{0, 0, 0, 0, 0, 0};
-        posSeq.clear();
-        colSeq.clear();
-        count = 0;
-        Random random = new Random();
-        lightOn(random);
-    }
-
-    /*
-        Will randomly light the buttons on the screen a number of times
-        based on the "n" value chosen by the user on the MainActivity TabPlayFragment
-        @param Random object
-        @return void
-     */
-    private void lightOn(final Random random) {
-        if(count != Math.floor(n + 5)) {
-            posMatch = false;
-            colMatch = false;
-            unclickBut((Button)this.findViewById(R.id.posBut));
-            unclickBut((Button)this.findViewById(R.id.colBut));
-            //clear sequence on first iteration
-            final int curPosInt = random.nextInt(8);
-            posSeq.add(curPosInt);
-            final int curColInt = random.nextInt(7);
-            colSeq.add(curColInt);
-            if(count-n >= 0) {
-                if (curPosInt == posSeq.get(count-n)) 
-                    posMatch = true;
-                if (curColInt == colSeq.get(count-n))
-                    colMatch = true;
-            }
-            setButColor(butVec.get(curPosInt), curColInt);
-            final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                public void run() {
-                    butVec.get(curPosInt).setBackgroundColor(getResources().getColor(R.color.grey));
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
-                            if(posMatch)
-                                score[4] -= 1;
-                            if(colMatch)
-                                score[5] -= 1;
-                            count +=1 ;
-                            lightOn(random);
-                        }
-                    }, 800);
-                }
-            }, 500);
-        }
-        else {
-            unclickBut((Button)this.findViewById(R.id.playBut));
-            clickBut((Button)this.findViewById(R.id.posBut));
-            clickBut((Button)this.findViewById(R.id.colBut));
-            for(int i = 0; i < 6; i++){
-                System.out.println(score[i]);
-            }
-            for(int i = 0; i < posSeq.size(); i ++) {
-                System.out.println("posSeq " + i + ": " + posSeq.get(i));
-                System.out.println("colSeq " + i + ": " + colSeq.get(i));
-            }
-            showAlertDialog();
-        }
-    }
-
-=======
->>>>>>> 37e91313212f767e25c49c8bc42d7bb11ea969dd
     private void init() {
         butVec.add((Button) findViewById(R.id.but0));
         butVec.add((Button) findViewById(R.id.but1));
