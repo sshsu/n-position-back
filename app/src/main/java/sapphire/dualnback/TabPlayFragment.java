@@ -26,7 +26,7 @@ public class TabPlayFragment extends Fragment implements AdapterView.OnItemSelec
         spinner.setOnItemSelectedListener(this);
         btnPlay = (Button) view.findViewById(R.id.btnPlay);
         btnPlay.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+            public void onClick(View v) {z
                 int pos = spinner.getSelectedItemPosition();
                 String spinnerValue = (String)spinner.getItemAtPosition(pos);
                 n = Integer.parseInt(spinnerValue.toString());
@@ -41,7 +41,7 @@ public class TabPlayFragment extends Fragment implements AdapterView.OnItemSelec
         return view;
     }
 
-    @Override
+
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
     adapterView.getItemAtPosition(i);
     }
