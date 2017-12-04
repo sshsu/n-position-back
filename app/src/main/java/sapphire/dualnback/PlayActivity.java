@@ -54,13 +54,14 @@ public class PlayActivity extends AppCompatActivity {
 	}
 
 	public void play(View view) {
-		progressBar.setMax(n+5);
+		progressBar.setMax(n+8);
 
 		setSeq();
 		//score(pos correct, color correct, pos miss, color miss, pos wrong, color wrong) -- Reset sequence;
 		score = new int[]{0,0,0,0,0,0};
 		Log.e("scoreLen", String.valueOf(score.length));
 		clickBut(findViewById(R.id.playBut));
+		clickBut(findViewById(R.id.backBut));
 		for (Button b : butVec)
 			b.setClickable(true);
 		count = 0;
@@ -95,12 +96,13 @@ public class PlayActivity extends AppCompatActivity {
 							progressBar.setProgress(count);
 							start();
 						}
-					}, 1000);
+					}, 1200);
 				}
-			}, 1000);
+			}, 1200);
 		}
 		else {
 			unclickBut((Button)this.findViewById(R.id.playBut));
+			unclickBut((Button)this.findViewById(R.id.backBut));
 			clickBut((Button)this.findViewById(R.id.posBut));
 			clickBut((Button)this.findViewById(R.id.colBut));
 			for(int i = 0; i < 6; i++){
