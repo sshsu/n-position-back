@@ -31,7 +31,7 @@ public class TabScoresFragment extends Fragment {
         View view = inflater.inflate(R.layout.tab_scores_fragment, container, false);
 
         //get date, score and level from database in String form, add each to
-		List<String[]> sList = new ArrayList<>();
+		ArrayList<String[]> sList = new ArrayList<>();
         Cursor cursor = getContext().getContentResolver().query(DualProvider.CONTENT_URI,projection,null,null,"_ID DESC");
 		if(cursor.getCount() > 0) {
 			cursor.moveToFirst();
@@ -45,7 +45,7 @@ public class TabScoresFragment extends Fragment {
 			}
 		}
 		ListView listView = view.findViewById(R.id.list_view_scores);
-		//ArrayAdapter<String[]> scoreAdapt = new ArrayAdapter<String[]>(scores_list_item, , sList);
+		ScoreListAdapter scoreAdapt = new ScoreListAdapter(getContext(), sList);
         return view;
     }
 }
