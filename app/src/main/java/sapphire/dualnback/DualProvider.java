@@ -16,6 +16,7 @@ public class DualProvider extends ContentProvider {
 	private static final String DBNAME = "Dual";
 	private static final String AUTHORITY = "sapphire.dualnback";
 	private static final String TABLE_NAME = "Scores";
+	private static final String COL_LEVEL = "LEVEL";
 	//Create a CONTENT_URI for use by other classes
 	public static final Uri CONTENT_URI =
 			Uri.parse("content://" + AUTHORITY + "/"+TABLE_NAME);
@@ -30,7 +31,8 @@ public class DualProvider extends ContentProvider {
 			"(" +                           // The columns in the table
 			COL_ID + " INTEGER PRIMARY KEY, " +
 			COL_DATE_TIME + " DATETIME," +
-			COL_SCORE + " REAL)";
+			COL_SCORE + " REAL," +
+			COL_LEVEL + " INTEGER)";
 
 	//URI Matcher object to facilitate switch cases between URIs
 	private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);

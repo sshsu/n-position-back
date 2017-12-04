@@ -18,10 +18,12 @@ public class TabTutorialFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.tab_tutorial_fragment, container, false);
-        ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
-        Glide.with(this)
-                .load(R.drawable.tutorial);
+        ImageView image = view.findViewById(R.id.imageView);
+       /* Glide.with(this)
+                .load(R.drawable.tutorial)
+                .into(image);*/
         return view;
     }
 }
