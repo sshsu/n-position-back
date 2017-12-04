@@ -3,7 +3,6 @@ package sapphire.dualnback;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
 
     private SectionPageAdapter mySectionPageAdapter;
     ViewPager viewPager;
-    TabItem tabItem1, tabItem2, tabItem3;
+    //TabItem tabItem1, tabItem2, tabItem3;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override

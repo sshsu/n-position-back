@@ -4,11 +4,13 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineV1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.01" />
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-=======
     <android.support.constraint.Guideline
         android:id="@+id/guidelineV4"
         android:layout_width="wrap_content"
@@ -53,11 +55,11 @@
 
 
     <android.support.constraint.Guideline
-        android:id="@+id/guidelineV66"
+        android:id="@+id/guidelineV75"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.66" />
+        app:layout_constraintGuide_percent="0.75" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guidelineV99"
@@ -74,11 +76,18 @@
         app:layout_constraintGuide_percent="0.01" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/guidelineH13"
+        android:id="@+id/guidelineH10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.13" />
+        app:layout_constraintGuide_percent="0.10" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineH11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.11" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guidelineH35"
@@ -109,21 +118,65 @@
         app:layout_constraintGuide_percent="0.85" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/guidelineH98"
+        android:id="@+id/guidelineH99"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.98" />
+        app:layout_constraintGuide_percent="0.99" />
 
     <TextView
-        android:id="@+id/dateHeading"
+        android:id="@+id/dateHeadTV"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:text="@string/dbtest"
-        android:textSize="18sp"
+        android:text="@string/date"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/guidelineH13"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineH10"
         app:layout_constraintLeft_toRightOf="@+id/guidelineV4"
         app:layout_constraintRight_toLeftOf="@+id/guidelineV50"
         app:layout_constraintTop_toBottomOf="@id/guidelineH1" />
+
+    <TextView
+        android:id="@+id/scoreHeadTV"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/score"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineH10"
+        app:layout_constraintLeft_toRightOf="@+id/guidelineV50"
+        app:layout_constraintRight_toLeftOf="@+id/guidelineV75"
+        app:layout_constraintTop_toBottomOf="@id/guidelineH1" />
+
+    <TextView
+        android:id="@+id/levelHeadTV"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/level"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineH10"
+        app:layout_constraintLeft_toRightOf="@+id/guidelineV75"
+        app:layout_constraintRight_toLeftOf="@+id/guidelineV99"
+        app:layout_constraintTop_toBottomOf="@id/guidelineH1" />
+
+    <View style="@style/Divider"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineH11"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guidelineH10" />
+
+    <ListView
+        android:id="@+id/list_view_scores"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineH99"
+        app:layout_constraintLeft_toRightOf="@+id/guidelineV1"
+        app:layout_constraintRight_toLeftOf="@+id/guidelineV99"
+        app:layout_constraintTop_toBottomOf="@id/guidelineH11" />
 </android.support.constraint.ConstraintLayout>

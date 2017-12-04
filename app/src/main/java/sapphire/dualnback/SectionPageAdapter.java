@@ -8,10 +8,6 @@ import android.support.v4.app.ListFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by skyler on 12/2/2017.
- */
-
 class SectionPageAdapter extends FragmentStatePagerAdapter {
     /**
      * Return the Fragment associated with a specified position.
