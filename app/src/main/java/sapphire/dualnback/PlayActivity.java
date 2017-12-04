@@ -22,15 +22,10 @@ import java.util.Vector;
 public class PlayActivity extends AppCompatActivity {
     Vector<Button> butVec = new Vector<>(9);
     Vector<Integer> posSeq = new Vector<>(0), colSeq = new Vector<>(0);
-    int n, count;
     int[] score;
+    int n, count;
     double finalPct;
-    boolean posMatch, colMatch;
-	String[] projection = {
-		DualProvider.COL_ID,
-		DualProvider.COL_DATE_TIME,
-		DualProvider.COL_SCORE,
-		DualProvider.COL_LEVEL};
+    boolean posMatch, colMatch, found;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,23 +35,48 @@ public class PlayActivity extends AppCompatActivity {
 		init();
 	}
 
+	public void randomTest(View view) {
+		setSeq();
+		for(int i = 0; i < posSeq.size(); i++)
+			Log.e("pos"+String.valueOf(i), String.valueOf(posSeq.get(i)));
+		for(int i = 0; i < colSeq.size(); i++)
+			Log.e("col"+String.valueOf(i), String.valueOf(colSeq.get(i)));
+	}
+
+	public void setSeq() {
+		found = false;
+		Random ran = new Random();
+		while(!found) {
+			posSeq.clear();
+			colSeq.clear();
+			for (int i = 0; i < n + 5; i++)
+				posSeq.add(ran.nextInt(8));
+			for (int i = 0; i < n + 5; i++)
+				colSeq.add(ran.nextInt(7));
+			for (int i = n; i < posSeq.size(); i++)
+				if ((posSeq.get(i) == posSeq.get(i - n)) || (colSeq.get(i) == colSeq.get(i - n)))
+					found = true;
+		}
+	}
+
 	public void play(View view) {
-		//grey out play
+		//score(pos correct, color correct, pos miss, color miss, pos wrong, color wrong) -- Reset sequence;
+		score = new int[6];
+		for(int i = 0; i < score.length; i ++)
+			Log.e("playbut score", String.valueOf(score[i]));
 		clickBut((Button)this.findViewById(R.id.playBut));
 		for(int i = 0; i < butVec.size(); i++)
 			butVec.get(i).setClickable(true);
 		for (Button b : butVec)
 			b.setClickable(true);
-		//reset score(pos correct, color correct, pos miss, color miss, pos wrong, color wrong) -- Reset sequence
-		score = new int[]{0, 0, 0, 0, 0, 0};
 		posSeq.clear();
 		colSeq.clear();
 		count = 0;
-		Random random = new Random();
-		lightOn(random);
+		//Random random = new Random();
+		start(new Random());
 	}
 
-	private void lightOn(final Random random) {
+	private void start(final Random random) {
 		if(count != Math.floor(n + 5)) {
 			posMatch = false;
 			colMatch = false;
@@ -85,7 +105,7 @@ public class PlayActivity extends AppCompatActivity {
 							if(colMatch)
 								score[5] -= 1;
 							count +=1 ;
-							lightOn(random);
+							start(random);
 						}
 					}, 800);
 				}
@@ -111,27 +131,7 @@ public class PlayActivity extends AppCompatActivity {
 		}
 	}
 
-	public void addScoreDB() {
-		finalPct = 100;
-		ContentValues cv = new ContentValues();
-		cv.put(DualProvider.COL_DATE_TIME, new SimpleDateFormat("MM-dd-YYYY hh:mm a", Locale.US).format(new Date()));
-		cv.put(DualProvider.COL_SCORE, finalPct);
-		cv.put(DualProvider.COL_LEVEL, n);
-		getContentResolver().insert(DualProvider.CONTENT_URI, cv);
-		//tableData();
-	}
-
-    public void dbTest(View view) {
-		ContentValues cv = new ContentValues();
-		cv.put(DualProvider.COL_DATE_TIME, new SimpleDateFormat("MM-dd-YYYY hh:mm a", Locale.US).format(new Date()));
-		cv.put(DualProvider.COL_SCORE, 95);
-		cv.put(DualProvider.COL_LEVEL, n);
-		getContentResolver().insert(DualProvider.CONTENT_URI, cv);
-		tableData();
-	}
-
-    private void showAlertDialog() {
-        // Prepare grid view
+    private void showAlertDialog() { // Prepare grid view
         GridView gridView = new GridView(this);
         List<String> scores = new ArrayList<>();
         scores.add(" ");
@@ -158,7 +158,6 @@ public class PlayActivity extends AppCompatActivity {
         if (denominator == 0)
         	denominator = 1;
         scores.add(String.valueOf((score[0] + score[1])/denominator) + "%");
-
         gridView.setAdapter(new ArrayAdapter(this, android.R.layout.simple_list_item_1, scores));
         gridView.setNumColumns(3);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -167,7 +166,6 @@ public class PlayActivity extends AppCompatActivity {
                 // do something here
             }
         });
-
         // Set grid view to alertDialog
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(gridView);
@@ -191,18 +189,6 @@ public class PlayActivity extends AppCompatActivity {
             score[3] -= 1;
         colMatch = false;
     }
-
-    private void init() {
-        butVec.add((Button) findViewById(R.id.but0));
-        butVec.add((Button) findViewById(R.id.but1));
-        butVec.add((Button) findViewById(R.id.but2));
-        butVec.add((Button) findViewById(R.id.but3));
-        butVec.add((Button) findViewById(R.id.but4));
-        butVec.add((Button) findViewById(R.id.but5));
-        butVec.add((Button) findViewById(R.id.but6));
-        butVec.add((Button) findViewById(R.id.but7));
-    }
-
     public void clickBut(Button b) {
         b.setTextColor(getResources().getColor(R.color.light_grey));
         b.setClickable(false);
@@ -212,6 +198,15 @@ public class PlayActivity extends AppCompatActivity {
         b.setClickable(true);
     }
 
+	public void addScoreDB() {
+		finalPct = 100;
+		ContentValues cv = new ContentValues();
+		cv.put(DualProvider.COL_DATE_TIME, new SimpleDateFormat("MM-dd-YYYY hh:mm a", Locale.US).format(new Date()));
+		cv.put(DualProvider.COL_SCORE, finalPct);
+		cv.put(DualProvider.COL_LEVEL, n);
+		getContentResolver().insert(DualProvider.CONTENT_URI, cv);
+		//tableData();
+	}
     public void setButColor(Button b, int color) {
         switch(color) {
             case 0 :
@@ -240,7 +235,27 @@ public class PlayActivity extends AppCompatActivity {
                 break;
         }
     }
+	private void init() {
+		butVec.add((Button) findViewById(R.id.but0));
+		butVec.add((Button) findViewById(R.id.but1));
+		butVec.add((Button) findViewById(R.id.but2));
+		butVec.add((Button) findViewById(R.id.but3));
+		butVec.add((Button) findViewById(R.id.but4));
+		butVec.add((Button) findViewById(R.id.but5));
+		butVec.add((Button) findViewById(R.id.but6));
+		butVec.add((Button) findViewById(R.id.but7));
+	}
+
+	public void dbTest(View view) {
+		ContentValues cv = new ContentValues();
+		cv.put(DualProvider.COL_DATE_TIME, new SimpleDateFormat("MM-dd-YYYY hh:mm a", Locale.US).format(new Date()));
+		cv.put(DualProvider.COL_SCORE, 95);
+		cv.put(DualProvider.COL_LEVEL, n);
+		getContentResolver().insert(DualProvider.CONTENT_URI, cv);
+		tableData();
+	}
 	public void tableData() {
+		String[] projection = {DualProvider.COL_ID, DualProvider.COL_DATE_TIME, DualProvider.COL_SCORE, DualProvider.COL_LEVEL};
 		Cursor cursor = getContentResolver().query(DualProvider.CONTENT_URI,projection,null,null,"_ID DESC");
 		if(cursor != null) {
 			if(cursor.getCount() > 0){
