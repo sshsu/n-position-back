@@ -32,7 +32,7 @@ public class DualProvider extends ContentProvider {
 			COL_ID + " INTEGER PRIMARY KEY, " +
 			COL_DATE_TIME + " DATETIME," +
 			COL_SCORE + " REAL," +
-			COL_LEVEL + " REAL DEFAULT 0)";
+			COL_LEVEL + " INTEGER DEFAULT 0)";
 
 
 	//URI Matcher object to facilitate switch cases between URIs
