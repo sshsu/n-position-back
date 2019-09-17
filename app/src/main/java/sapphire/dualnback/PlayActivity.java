@@ -4,11 +4,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
@@ -18,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Vector;
 
@@ -33,7 +33,7 @@ public class PlayActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_play);
-		n = Integer.parseInt(getIntent().getStringExtra("difficulty"));
+		n = Integer.parseInt(Objects.requireNonNull(getIntent().getStringExtra("difficulty")));
 		init();
 	}
 
@@ -48,7 +48,7 @@ public class PlayActivity extends AppCompatActivity {
 			for (int i = 0; i < n + 8; i++)
 				colSeq.add(ran.nextInt(5));
 			for (int i = n; i < posSeq.size(); i++)
-				if ((posSeq.get(i) == posSeq.get(i - n)) || (colSeq.get(i) == colSeq.get(i - n)))
+				if ((posSeq.get(i).equals(posSeq.get(i - n))) || (colSeq.get(i).equals(colSeq.get(i - n))))
 					found = true;
 		}
 	}
@@ -73,38 +73,32 @@ public class PlayActivity extends AppCompatActivity {
 		if(count != Math.floor(n + 8)) {
 			posMatch = false;
 			colMatch = false;
-			unclickBut((Button)this.findViewById(R.id.posBut));
-			unclickBut((Button)this.findViewById(R.id.colBut));
+			unclickBut(this.findViewById(R.id.posBut));
+			unclickBut(this.findViewById(R.id.colBut));
 			if(count-n >= 0) {
-				if (posSeq.get(count) == posSeq.get(count-n))
+				if (posSeq.get(count).equals(posSeq.get(count - n)))
 					posMatch = true;
-				if (colSeq.get(count) == colSeq.get(count-n))
+				if (colSeq.get(count).equals(colSeq.get(count - n)))
 					colMatch = true;
 			}
 			setButColor(butVec.get(posSeq.get(count)), colSeq.get(count));
 			final Handler handler = new Handler();
-			handler.postDelayed(new Runnable() {
-				public void run() {
-					butVec.get(posSeq.get(count)).setBackgroundColor(getResources().getColor(R.color.grey));
-					handler.postDelayed(new Runnable() {
-						public void run() {
-							if(posMatch)
-								score[4] += 1;
-							if(colMatch)
-								score[5] += 1;
-							count +=1;
-							progressBar.setProgress(count);
-							start();
-						}
-					}, 1200);
-				}
+			handler.postDelayed(() -> {
+				butVec.get(posSeq.get(count)).setBackgroundColor(getResources().getColor(R.color.grey));
+				handler.postDelayed(() -> {
+					if (posMatch) score[4] += 1;
+					if (colMatch) score[5] += 1;
+					count += 1;
+					progressBar.setProgress(count);
+					start();
+				}, 1200);
 			}, 1200);
 		}
 		else {
-			unclickBut((Button)this.findViewById(R.id.playBut));
-			unclickBut((Button)this.findViewById(R.id.backBut));
-			clickBut((Button)this.findViewById(R.id.posBut));
-			clickBut((Button)this.findViewById(R.id.colBut));
+			unclickBut(this.findViewById(R.id.playBut));
+			unclickBut(this.findViewById(R.id.backBut));
+			clickBut(this.findViewById(R.id.posBut));
+			clickBut(this.findViewById(R.id.colBut));
 			for(int i = 0; i < 6; i++){
 				System.out.println(score[i]);
 			}
@@ -141,9 +135,9 @@ public class PlayActivity extends AppCompatActivity {
         int denominator = score[0]+score[1] + score[2]+ score[3]+score[4]+score[5];
         int pct = (100*numerator)/denominator;
         addScoreDB(pct);
-        scores.add(String.valueOf(numerator) + "/" + String.valueOf(denominator));
-        scores.add(String.valueOf(pct) + "%");
-        gridView.setAdapter(new ArrayAdapter(this, android.R.layout.simple_list_item_1, scores));
+        scores.add(numerator + "/" + denominator);
+        scores.add(pct + "%");
+        gridView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, scores));
         gridView.setNumColumns(3);
 
         // Set grid view to alertDialog
@@ -152,17 +146,12 @@ public class PlayActivity extends AppCompatActivity {
         builder.setTitle("Scores");
         AlertDialog dialog = builder.create();
         dialog.show();
-		gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				dialog.cancel();
-			}
-		});
+		gridView.setOnItemClickListener((parent, view, position, id) -> dialog.cancel());
 
     }
 
     public void posClick (View view){
-        clickBut((Button)this.findViewById(R.id.posBut));
+        clickBut(this.findViewById(R.id.posBut));
         if(posMatch)
             score[0] += 1;
         else
@@ -170,7 +159,7 @@ public class PlayActivity extends AppCompatActivity {
         posMatch = false;
     }
     public void colClick (View view){
-        clickBut((Button)this.findViewById(R.id.colBut));
+        clickBut(this.findViewById(R.id.colBut));
         if(colMatch)
             score[1] += 1;
         else
@@ -199,14 +188,14 @@ public class PlayActivity extends AppCompatActivity {
 		tableData();
 	}
 
-	public void dbTest(View view) {
-		ContentValues cv = new ContentValues();
-		cv.put(DualProvider.COL_DATE_TIME, new SimpleDateFormat("MM-dd-YYYY hh:mm a", Locale.US).format(new Date()));
-		cv.put(DualProvider.COL_SCORE, 10);
-		cv.put(DualProvider.COL_LEVEL, 1);
-		getContentResolver().insert(DualProvider.CONTENT_URI, cv);
-		tableData();
-	}
+//	public void dbTest(View view) {
+//		ContentValues cv = new ContentValues();
+//		cv.put(DualProvider.COL_DATE_TIME, new SimpleDateFormat("MM-dd-YYYY hh:mm a", Locale.US).format(new Date()));
+//		cv.put(DualProvider.COL_SCORE, 10);
+//		cv.put(DualProvider.COL_LEVEL, 1);
+//		getContentResolver().insert(DualProvider.CONTENT_URI, cv);
+//		tableData();
+//	}
     public void setButColor(Button b, int color) {
         switch(color) {
             case 0 :
@@ -236,15 +225,15 @@ public class PlayActivity extends AppCompatActivity {
         }
     }
 	private void init() {
-		butVec.add((Button) findViewById(R.id.but0));
-		butVec.add((Button) findViewById(R.id.but1));
-		butVec.add((Button) findViewById(R.id.but2));
-		butVec.add((Button) findViewById(R.id.but3));
-		butVec.add((Button) findViewById(R.id.but4));
-		butVec.add((Button) findViewById(R.id.but5));
-		butVec.add((Button) findViewById(R.id.but6));
-		butVec.add((Button) findViewById(R.id.but7));
-		progressBar = (ProgressBar)findViewById(R.id.progressBar);
+		butVec.add(findViewById(R.id.but0));
+		butVec.add(findViewById(R.id.but1));
+		butVec.add(findViewById(R.id.but2));
+		butVec.add(findViewById(R.id.but3));
+		butVec.add(findViewById(R.id.but4));
+		butVec.add(findViewById(R.id.but5));
+		butVec.add(findViewById(R.id.but6));
+		butVec.add(findViewById(R.id.but7));
+		progressBar = findViewById(R.id.progressBar);
 	}
 
 	public void tableData() {

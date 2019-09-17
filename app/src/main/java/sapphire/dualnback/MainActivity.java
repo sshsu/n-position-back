@@ -2,16 +2,17 @@ package sapphire.dualnback;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.RequiresApi;
+import com.google.android.material.tabs.TabLayout;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 public class MainActivity extends AppCompatActivity {
 
-    private SectionPageAdapter mySectionPageAdapter;
     ViewPager viewPager;
     //TabItem tabItem1, tabItem2, tabItem3;
 
@@ -25,9 +26,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         init();
-        mySectionPageAdapter = new SectionPageAdapter(getSupportFragmentManager());
 
-        viewPager = (ViewPager) findViewById(R.id.container);
+        viewPager = findViewById(R.id.container);
         setUpViewPager(viewPager);
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
@@ -44,4 +44,5 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void init(){
     }
+    public void resetOnClick(View view) {}
 }

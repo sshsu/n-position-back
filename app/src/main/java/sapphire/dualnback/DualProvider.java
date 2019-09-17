@@ -11,6 +11,10 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
+import java.util.Objects;
+
 public class DualProvider extends ContentProvider {
 	private static String LOGTAG = "DualProvider:";
 	private static final String DBNAME = "Dual";
@@ -41,43 +45,34 @@ public class DualProvider extends ContentProvider {
 		// for(int i = 0; i < selectionArgs.length; i++)
 		//   System.out.println("selection args: " + selectionArgs[0]);
 		Log.e("del num: ", uri.getPathSegments().get(1));
-		switch (sUriMatcher.match(uri)){
-			//Match on URI with ID
-			case 2:
-				String id = uri.getPathSegments().get(1);
-				selection = COL_ID + "=" + id +
-						(!TextUtils.isEmpty(selection) ? "AND (" + selection  + ")" : "");
-				break;
-			default:
-				//Else, error is thrown
-				throw new IllegalArgumentException("Unsupported URI: " + uri);
+		//Match on URI with ID
+		if (sUriMatcher.match(uri) == 2) {
+			String id = uri.getPathSegments().get(1);
+			selection = COL_ID + "=" + id + (!TextUtils.isEmpty(selection) ? "AND (" + selection + ")" : "");
+		} else {//Else, error is thrown
+			throw new IllegalArgumentException("Unsupported URI: " + uri);
 		}
 		//Delete from the database, return integer value for how many rows are deleted
 		int deleteCount = mOpenHelper.getWritableDatabase().delete(TABLE_NAME,selection,selectionArgs);
 
 		//Notify calling context
-		getContext().getContentResolver().notifyChange(uri,null);
+		Objects.requireNonNull(getContext()).getContentResolver().notifyChange(uri,null);
 		//Return number of rows deleted (if any)
 		return deleteCount;
 	}
 
 	//Insert functionality of the Content Provider. Pass ContentValues object with values to be inserted
 	@Override
-	public Uri insert(Uri uri, ContentValues values) {
-		switch (sUriMatcher.match(uri)){
-			//Match against a URI with just the table name
-			case 1:
-				break;
-			default:
-				//Otherwise, error is thrown
-				Log.e(LOGTAG, "URI not recognized " + uri);
-		}
+	public Uri insert(@NonNull Uri uri, ContentValues values) {
+		//Match against a URI with just the table name
+		if (!(sUriMatcher.match(uri) ==1))
+			Log.e(LOGTAG, "URI not recognized " + uri);
 		//Insert into the table, return the id of the inserted row
 		long id = mOpenHelper.getWritableDatabase().insert(TABLE_NAME,null,values);
 		Log.e("insert row", String.valueOf(id));
 
 		//Notify context of change
-		getContext().getContentResolver().notifyChange(uri,null);
+		Objects.requireNonNull(getContext()).getContentResolver().notifyChange(uri,null);
 		//Return the URI with the ID at the end
 		return Uri.parse(CONTENT_URI+"/" + id);
 	}
@@ -93,7 +88,7 @@ public class DualProvider extends ContentProvider {
 
 	//Query Functionality for Content Provider. Pass either table name, or the table name with an ID
 	@Override
-	public Cursor query(Uri uri, String[] projection, String selection,
+	public Cursor query(@NonNull Uri uri, String[] projection, String selection,
 						String[] selectionArgs, String sortOrder) {
 
 		//Use an SQLiteQueryBuilder object to create the query
@@ -121,7 +116,7 @@ public class DualProvider extends ContentProvider {
 
 	//Update functionality for the Content Provider
 	@Override
-	public int update(Uri uri, ContentValues values, String selection,
+	public int update(@NonNull Uri uri, ContentValues values, String selection,
 					  String[] selectionArgs) {
 		switch (sUriMatcher.match(uri)){
 			case 1:
@@ -142,7 +137,7 @@ public class DualProvider extends ContentProvider {
 				selection,selectionArgs);
 
 		//Notify the context
-		getContext().getContentResolver().notifyChange(uri,null);
+		Objects.requireNonNull(getContext()).getContentResolver().notifyChange(uri,null);
 		//Return the number of rows updated
 		return updateCount;
 	}
@@ -167,7 +162,7 @@ public class DualProvider extends ContentProvider {
 	}
 	//*******DON'T CARE PILE
 	@Override
-	public String getType(Uri uri) { //Not implemented. Would return the MIME type requests
+	public String getType(@NonNull Uri uri) { //Not implemented. Would return the MIME type requests
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 }

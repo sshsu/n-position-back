@@ -1,9 +1,9 @@
 package sapphire.dualnback;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.app.ListFragment;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ class SectionPageAdapter extends FragmentStatePagerAdapter {
     private final List<Fragment> mFragmentList = new ArrayList<>();
     private final List<String> mFragmentTitleList = new ArrayList<>();
     public SectionPageAdapter(FragmentManager fm){
-        super(fm);
+        super(fm, FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
     }
 
     /**
@@ -26,7 +26,7 @@ class SectionPageAdapter extends FragmentStatePagerAdapter {
      * indicating no title for this page. The default implementation returns
      * null.
      *
-     * @param position The position of the title requested
+
      * @return A title for the requested page
      */
     public void addFragment(Fragment fragment, String title){
@@ -38,6 +38,7 @@ class SectionPageAdapter extends FragmentStatePagerAdapter {
         return mFragmentTitleList.get(position);
     }
 
+    @NonNull
     @Override
     public Fragment getItem(int position) {
         return mFragmentList.get(position);
