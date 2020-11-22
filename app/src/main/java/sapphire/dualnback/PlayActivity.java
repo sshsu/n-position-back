@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 import java.text.SimpleDateFormat;
@@ -22,11 +23,12 @@ import java.util.Random;
 import java.util.Vector;
 
 public class PlayActivity extends AppCompatActivity {
-    Vector<Button> butVec = new Vector<>(9);
-    Vector<Integer> posSeq = new Vector<>(0), colSeq = new Vector<>(0);
+    Vector<ImageButton> butVec = new Vector<>(9);
+    Vector<Integer> posSeq = new Vector<>(0), dotPosSeq = new Vector<>(0);
     int[] score;
-    int n, count;
+    int n, count, blockAmount = 6, wrong_count;
     boolean posMatch, colMatch, found;
+    boolean butPosClick;
     ProgressBar progressBar;
 
 	@Override
@@ -38,23 +40,54 @@ public class PlayActivity extends AppCompatActivity {
 	}
 
 	public void setSeq() {
-		found = false;
-		Random ran = new Random();
-		while(!found) {
+
+			Random ran = new Random();
 			posSeq.clear();
-			colSeq.clear();
-			for (int i = 0; i < n + 8; i++)
-				posSeq.add(ran.nextInt(8));
-			for (int i = 0; i < n + 8; i++)
-				colSeq.add(ran.nextInt(5));
-			for (int i = n; i < posSeq.size(); i++)
-				if ((posSeq.get(i).equals(posSeq.get(i - n))) || (colSeq.get(i).equals(colSeq.get(i - n))))
-					found = true;
-		}
+			dotPosSeq.clear();
+			for (int i = 0; i < n + blockAmount; i++) {
+				posSeq.add(ran.nextInt(9));
+				dotPosSeq.add(0);
+			}
+			int find_amound = 0;
+
+			Vector<Integer> marks  = new Vector<>(n + blockAmount);
+			for(int i = 0 ; i < n + blockAmount; ++i){
+				marks.add(0);
+			}
+
+			//setting there are half of amount postion that can hit n back position
+			//for game joy
+			for(int i = 0 ; i< blockAmount / 2; ++i){
+				int pos = ran.nextInt(blockAmount) + n;
+				while(true){
+					if(marks.get(pos - n) == 0){
+						if(marks.get(pos) == 0){
+							dotPosSeq.set(pos, ran.nextInt(9));
+							marks.set(pos, 1);
+						}
+						int value = dotPosSeq.get(pos);
+						dotPosSeq.set(pos - n, value);
+						marks.set(pos - n, 1);
+						break;
+					}
+
+					pos =( pos + 1) % blockAmount + n;
+					if(pos < n)
+						pos = n;
+				}
+			}
+
+			for(int i = 0; i < n + blockAmount ;++i){
+				if(marks.get(i) == 0){
+					dotPosSeq.set(i, ran.nextInt(9));
+				}
+			}
+
 	}
 
 	public void play(View view) {
-		progressBar.setMax(n+8);
+		progressBar.setMax(n+blockAmount);
+		progressBar.setProgress(count);
 
 		setSeq();
 		//score(pos correct, color correct, pos miss, color miss, pos wrong, color wrong) -- Reset sequence;
@@ -62,52 +95,39 @@ public class PlayActivity extends AppCompatActivity {
 		Log.e("scoreLen", String.valueOf(score.length));
 		clickBut(findViewById(R.id.playBut));
 		clickBut(findViewById(R.id.backBut));
-		for (Button b : butVec)
+		clickBut(findViewById(R.id.posBut));
+
+		for (ImageButton b : butVec)
 			b.setClickable(true);
-		count = 0;
+		wrong_count = 0;
+		count = -1;
 		start();
 	}
 
 	private void start() {
-
-		if(count != Math.floor(n + 8)) {
+		// count the score
+		++count;
+		if(count < Math.floor(n + blockAmount)) {
 			posMatch = false;
-			colMatch = false;
-			unclickBut(this.findViewById(R.id.posBut));
-			unclickBut(this.findViewById(R.id.colBut));
-			if(count-n >= 0) {
-				if (posSeq.get(count).equals(posSeq.get(count - n)))
-					posMatch = true;
-				if (colSeq.get(count).equals(colSeq.get(count - n)))
-					colMatch = true;
+			setButColor(butVec.get(posSeq.get(count)), dotPosSeq.get(count));
+			if(count >= n){
+				if (dotPosSeq.get(count).equals(dotPosSeq.get(count - n)))
+					wrong_count += 1;
+				unclickBut(this.findViewById(R.id.posBut));
 			}
-			setButColor(butVec.get(posSeq.get(count)), colSeq.get(count));
 			final Handler handler = new Handler();
 			handler.postDelayed(() -> {
-				butVec.get(posSeq.get(count)).setBackgroundColor(getResources().getColor(R.color.grey));
+				setButColor(butVec.get(posSeq.get(count)), -1);
 				handler.postDelayed(() -> {
-					if (posMatch) score[4] += 1;
-					if (colMatch) score[5] += 1;
-					count += 1;
 					progressBar.setProgress(count);
 					start();
-				}, 1200);
-			}, 1200);
+				}, 1500);
+			}, 1500);
 		}
 		else {
 			unclickBut(this.findViewById(R.id.playBut));
 			unclickBut(this.findViewById(R.id.backBut));
 			clickBut(this.findViewById(R.id.posBut));
-			clickBut(this.findViewById(R.id.colBut));
-			for(int i = 0; i < 6; i++){
-				System.out.println(score[i]);
-			}
-			for(int i = 0; i < posSeq.size(); i ++) {
-				System.out.println("posSeq " + i + ": " + posSeq.get(i));
-				System.out.println("colSeq " + i + ": " + colSeq.get(i));
-			}
-			for(int i : score)
-				Log.e("score", String.valueOf(i));
 			scoreRound();
 		}
 	}
@@ -117,26 +137,27 @@ public class PlayActivity extends AppCompatActivity {
         List<String> scores = new ArrayList<>();
         scores.add(" ");
         scores.add("Position:");
-        scores.add("Color:");
+        scores.add("");
         scores.add("Correct");
-        scores.add(String.valueOf(score[0]));
-        scores.add(String.valueOf(score[1]));
+        int correct_count = count - wrong_count - n;
+        scores.add(String.valueOf(correct_count));
+        scores.add(String.valueOf(""));
         scores.add("Missed");
-        scores.add(String.valueOf(score[2]));
-        scores.add(String.valueOf(score[3]));
+        scores.add(String.valueOf(""));
+        scores.add(String.valueOf(""));
         scores.add("Wrong");
-        scores.add(String.valueOf(score[4]));
-        scores.add(String.valueOf(score[5]));
+        scores.add(String.valueOf(wrong_count));
+        scores.add(String.valueOf(""));
         scores.add(" ");
         scores.add(" ");
         scores.add(" ");
         scores.add("Total");
-        int numerator = score[0] + score[1];
-        int denominator = score[0]+score[1] + score[2]+ score[3]+score[4]+score[5];
-        int pct = (100*numerator)/denominator;
+        int numerator = correct_count;
+        int denominator = count - n;
+        int pct = ( 100 * numerator )/denominator;
         addScoreDB(pct);
-        scores.add(numerator + "/" + denominator);
         scores.add(pct + "%");
+		scores.add("");
         gridView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, scores));
         gridView.setNumColumns(3);
 
@@ -147,25 +168,15 @@ public class PlayActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
 		gridView.setOnItemClickListener((parent, view, position, id) -> dialog.cancel());
-
     }
 
     public void posClick (View view){
         clickBut(this.findViewById(R.id.posBut));
-        if(posMatch)
-            score[0] += 1;
-        else
-            score[2] += 1;
-        posMatch = false;
+		if (dotPosSeq.get(count).equals(dotPosSeq.get(count - n))){
+			wrong_count -= 1;
+		}
     }
-    public void colClick (View view){
-        clickBut(this.findViewById(R.id.colBut));
-        if(colMatch)
-            score[1] += 1;
-        else
-            score[3] += 1;
-        colMatch = false;
-    }
+
     public void clickBut(Button b) {
         b.setTextColor(getResources().getColor(R.color.black));
         b.setClickable(false);
@@ -196,32 +207,37 @@ public class PlayActivity extends AppCompatActivity {
 //		getContentResolver().insert(DualProvider.CONTENT_URI, cv);
 //		tableData();
 //	}
-    public void setButColor(Button b, int color) {
+    public void setButColor(ImageButton b, int color) {
         switch(color) {
             case 0 :
-                b.setBackgroundColor(getResources().getColor(R.color.green));
+            	b.setImageDrawable(getResources().getDrawable(R.drawable.dot1));
                 break;
             case 1:
-                b.setBackgroundColor(getResources().getColor(R.color.red));
-                break;
+				b.setImageDrawable(getResources().getDrawable(R.drawable.dot2));
+				break;
             case 2 :
-                b.setBackgroundColor(getResources().getColor(R.color.blue));
-                break;
-            case 3:
-                b.setBackgroundColor(getResources().getColor(R.color.light_blue));
-                break;
+				b.setImageDrawable(getResources().getDrawable(R.drawable.dot3));
+				break;
+			case 3:
+				b.setImageDrawable(getResources().getDrawable(R.drawable.dot4));
+					break;
             case 4 :
-                b.setBackgroundColor(getResources().getColor(R.color.pink));
-                break;
+				b.setImageDrawable(getResources().getDrawable(R.drawable.dot5));
+				break;
             case 5:
-                b.setBackgroundColor(getResources().getColor(R.color.orange));
-                break;
-            case 6:
-                b.setBackgroundColor(getResources().getColor(R.color.purple));
-                break;
-            default:
-                b.setBackgroundColor(getResources().getColor(R.color.black));
-                break;
+				b.setImageDrawable(getResources().getDrawable(R.drawable.dot6));
+				break;
+			case 6:
+				b.setImageDrawable(getResources().getDrawable(R.drawable.dot7));
+				break;
+			case 7:
+				b.setImageDrawable(getResources().getDrawable(R.drawable.dot8));
+				break;
+			case 8:
+				b.setImageDrawable(getResources().getDrawable(R.drawable.dot9));
+				break;
+			case -1:
+				b.setImageDrawable(getResources().getDrawable(R.drawable.dot_grey));
         }
     }
 	private void init() {
@@ -233,6 +249,7 @@ public class PlayActivity extends AppCompatActivity {
 		butVec.add(findViewById(R.id.but5));
 		butVec.add(findViewById(R.id.but6));
 		butVec.add(findViewById(R.id.but7));
+		butVec.add(findViewById(R.id.but8));
 		progressBar = findViewById(R.id.progressBar);
 	}
 
