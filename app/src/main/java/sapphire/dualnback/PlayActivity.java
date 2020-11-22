@@ -71,9 +71,7 @@ public class PlayActivity extends AppCompatActivity {
 						break;
 					}
 
-					pos =( pos + 1) % blockAmount + n;
-					if(pos < n)
-						pos = n;
+					pos =( pos + 1 - n) % blockAmount + n;
 				}
 			}
 
