@@ -26,7 +26,7 @@ public class PlayActivity extends AppCompatActivity {
     Vector<ImageButton> butVec = new Vector<>(9);
     Vector<Integer> posSeq = new Vector<>(0), dotPosSeq = new Vector<>(0);
     int[] score;
-    int n, count, blockAmount = 6, wrong_count;
+    int n, count, blockAmount = 15, wrong_count;
     boolean posMatch, colMatch, found;
     boolean butPosClick;
     ProgressBar progressBar;
