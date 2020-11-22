@@ -138,8 +138,8 @@
 
     <ImageButton
         android:id="@+id/but0"
-        android:layout_width="120dp"
-        android:layout_height="150dp"
+        android:layout_width="110dp"
+        android:layout_height="140dp"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
         android:background="@color/grey"
@@ -154,8 +154,8 @@
 
     <ImageButton
         android:id="@+id/but1"
-        android:layout_width="120dp"
-        android:layout_height="150dp"
+        android:layout_width="110dp"
+        android:layout_height="140dp"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
         android:background="@color/grey"
@@ -163,15 +163,16 @@
         android:scaleType="fitXY"
         android:src="@drawable/dot_grey"
         app:layout_constraintBottom_toTopOf="@+id/guidelineH35"
+        app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintLeft_toRightOf="@+id/guidelineV34"
         app:layout_constraintRight_toLeftOf="@+id/guidelineV66"
         app:layout_constraintTop_toBottomOf="@id/guidelineH10"
-        app:layout_constraintVertical_bias="0.666" />
+        app:layout_constraintVertical_bias="0.538" />
 
     <ImageButton
         android:id="@+id/but2"
-        android:layout_width="120dp"
-        android:layout_height="150dp"
+        android:layout_width="110dp"
+        android:layout_height="140dp"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
         android:background="@color/grey"
@@ -179,14 +180,16 @@
         android:scaleType="fitXY"
         android:src="@drawable/dot_grey"
         app:layout_constraintBottom_toTopOf="@+id/guidelineH35"
+        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintLeft_toRightOf="@+id/guidelineV66"
         app:layout_constraintRight_toLeftOf="@+id/guidelineV98"
-        app:layout_constraintTop_toBottomOf="@id/guidelineH10" />
+        app:layout_constraintTop_toBottomOf="@id/guidelineH10"
+        app:layout_constraintVertical_bias="0.538" />
 
     <ImageButton
         android:id="@+id/but3"
-        android:layout_width="120dp"
-        android:layout_height="150dp"
+        android:layout_width="110dp"
+        android:layout_height="140dp"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
         android:background="@color/grey"
@@ -200,8 +203,8 @@
 
     <ImageButton
         android:id="@+id/but4"
-        android:layout_width="120dp"
-        android:layout_height="150dp"
+        android:layout_width="110dp"
+        android:layout_height="140dp"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
         android:background="@color/light_grey"
@@ -215,8 +218,8 @@
 
     <ImageButton
         android:id="@+id/but5"
-        android:layout_width="120dp"
-        android:layout_height="150dp"
+        android:layout_width="110dp"
+        android:layout_height="140dp"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
         android:background="@color/grey"
@@ -230,8 +233,8 @@
 
     <ImageButton
         android:id="@+id/but6"
-        android:layout_width="120dp"
-        android:layout_height="150dp"
+        android:layout_width="110dp"
+        android:layout_height="140dp"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
         android:background="@color/grey"
@@ -245,8 +248,8 @@
 
     <ImageButton
         android:id="@+id/but7"
-        android:layout_width="120dp"
-        android:layout_height="150dp"
+        android:layout_width="110dp"
+        android:layout_height="140dp"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
         android:background="@color/grey"
@@ -260,8 +263,8 @@
 
     <ImageButton
         android:id="@+id/but8"
-        android:layout_width="120dp"
-        android:layout_height="150dp"
+        android:layout_width="110dp"
+        android:layout_height="140dp"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
         android:background="@color/grey"
